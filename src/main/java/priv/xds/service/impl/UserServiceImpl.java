@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int sign(String qq) throws Exception {
-        User user = userMapper.queryUserByQq(qq);
+    public int sign(String qq, String groupCode) throws Exception {
+        User user = userMapper.queryUser(qq, groupCode);
         if (user == null) {
             // 没找到用户，先注册
             User newUser = new User();

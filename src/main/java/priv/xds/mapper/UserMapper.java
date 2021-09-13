@@ -17,9 +17,10 @@ public interface UserMapper {
     /**
      * 查询用户
      * @param qq 用户qq号
+     * @param groupCode qq群
      * @return 用户信息
      */
-    User queryUserByQq(@Param("qq") String qq);
+    User queryUser(@Param("qq") String qq, @Param("groupCode") String groupCode);
 
     /**
      * 更新签到天数

@@ -22,10 +22,8 @@ simbot:
       deviceInfoFile: "classpath: device.json"
 
 nekolog:
-  # 是否开启language
-  enableLanguage: true
   # 是否开启颜色
-  enableColor: true
+  enableColor: false
   # 使用的日志等级
   level: INFO
   # 开启输出堆栈信息
@@ -34,4 +32,4 @@ nekolog:
 bot:
   sign:
     # 指定哪些群执行签到
-    targetGroup: ["700026523"]
+    targetGroup: ["700026523", "1003904857"]

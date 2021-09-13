@@ -75,18 +75,26 @@ public class BotSignConfiguration {
                 registerGroup(groupCode);
                 logger.info("注册完毕");
             }
+            logger.info("搜索完毕");
             return;
         }
 
         // 后期添加新群组
-        for (Group group : allRegisteredGroup) {
-            String groupCode = group.getGroupCode();
-            if (!targetGroup.contains(groupCode)) {
-                logger.info("正在注册QQ群: " + groupCode);
-                registerGroup(groupCode);
+        for (String s : targetGroup) {
+            boolean isRegistered = false;
+            for (Group group : allRegisteredGroup) {
+                if (group.getGroupCode().equals(s)) {
+                    isRegistered = true;
+                    break;
+                }
+            }
+            if (!isRegistered) {
+                logger.info("正在注册QQ群: " + s);
+                registerGroup(s);
                 logger.info("注册完毕");
             }
         }
+        logger.info("搜索完毕");
     }
 
     private void registerGroup(String groupCode) {

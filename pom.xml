@@ -132,9 +132,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.3.4.RELEASE</version>
-                <configuration>
-                    <mainClass>test.Test</mainClass>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>

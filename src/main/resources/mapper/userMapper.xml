@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="priv.xds.mapper.UserMapper">
     
-    <select id="queryUserByQq" resultType="User">
-        SELECT * FROM t_user WHERE qq = #{qq}
+    <select id="queryUser" resultType="User">
+        SELECT * FROM t_user WHERE qq = #{qq} AND group_code = #{groupCode}
     </select>
 
     <update id="updateSignDays">

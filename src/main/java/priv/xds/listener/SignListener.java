@@ -37,7 +37,7 @@ public class SignListener {
         GroupAccountInfo accountInfo = groupMsg.getAccountInfo();
         Map<String, Object> cache = SignCache.getCache();
         try {
-            int signDays = userService.sign(accountInfo.getAccountCode());
+            int signDays = userService.sign(accountInfo.getAccountCode(), groupMsg.getGroupInfo().getGroupCode());
             Integer rank = (Integer) cache.get(groupMsg.getGroupInfo().getGroupCode());
             if (rank == null) {
                 cache.put(groupMsg.getGroupInfo().getGroupCode(), 1);
@@ -47,18 +47,11 @@ public class SignListener {
             }
             sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]打卡成功!今天是第" + rank + "个打卡!目前已经连续打卡" + signDays + "天");
         } catch (NoRepeatableException e) {
-            sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]打卡失败!请不要连续签到");
+            sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]打卡失败!请不要连续打卡");
         } catch (Exception e) {
-            sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]签到失败" + e.getCause() + ":" + e.getMessage());
+            sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]打卡失败" + e.getCause() + ":" + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    @OnGroup
-    @Filter(value = "test", groups = {"700026523"})
-    public void sign2(GroupMsg groupMsg,
-                     MsgSender sender) {
-        System.out.println(userService);
     }
 
 }
