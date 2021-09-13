@@ -16,14 +16,34 @@
     </update>
 
     <insert id="addUser" parameterType="User">
-        insert into t_user(qq, last_sign, consecutive_sign_days)
-        VALUES (#{qq}, #{lastSign}, #{consecutiveSignDays})
+        insert into t_user(qq, last_sign, consecutive_sign_days, group_code)
+        VALUES (#{qq}, #{lastSign}, #{consecutiveSignDays}, #{groupCode})
+    </insert>
+
+    <insert id="addUsers" parameterType="User">
+        insert into t_user(qq, last_sign, consecutive_sign_days, group_code)
+        VALUE
+        <foreach collection="users" item="item" separator=",">
+            (#{item.qq}, #{item.lastSign}, #{item.consecutiveSignDays}, #{item.groupCode})
+        </foreach>
     </insert>
 
     <select id="getUnsignedUser" resultType="User">
         SELECT *
         FROM t_user
         WHERE last_sign != #{date}
+    </select>
+
+    <select id="getUnsignedUserByGroup" resultType="User">
+        SELECT *
+        FROM t_user
+        WHERE last_sign != #{date} AND group_code = #{groupCode}
+    </select>
+
+    <select id="getAllUsers" resultType="User">
+        SELECT *
+        FROM t_user
+        WHERE group_code = #{groupCode}
     </select>
     
 </mapper>

@@ -37,10 +37,31 @@ public interface UserMapper {
     int addUser(User user);
 
     /**
+     * 批量添加数据
+     * @param users 用户数据
+     */
+    void addUsers(List<User> users);
+
+    /**
      * 获取所有没有打卡的人
      * @param date 今天的日期，以该日期为准，获取该日期内没有打卡的人
      * @return 没有打卡的人
      */
     List<User> getUnsignedUser(@Param("date") Date date);
+
+    /**
+     * 获取指定群号未打卡的人
+     * @param date 今天的日期，以该日期为准，获取该日期内没有打卡的人
+     * @param groupCode 指定群号
+     * @return 未打卡的人
+     */
+    List<User> getUnsignedUserByGroup(@Param("date") Date date, @Param("groupCode") String groupCode);
+
+    /**
+     * 获取一个群里面的所有人
+     * @param groupCode 群号
+     * @return 群里面的所有人
+     */
+    List<User> getAllUsers(@Param("groupCode") String groupCode);
 
 }

@@ -11,6 +11,7 @@ mybatis:
   type-aliases-package: priv.xds.pojo
   configuration:
     map-underscore-to-camel-case: true
+    cache-enabled: true
 
 simbot:
   core:

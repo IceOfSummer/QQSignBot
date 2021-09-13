@@ -1,10 +1,14 @@
 package priv.xds.task;
 
 import love.forte.simbot.bot.BotManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import priv.xds.mapper.GroupMapper;
 import priv.xds.mapper.UserMapper;
+import priv.xds.pojo.Group;
 import priv.xds.pojo.User;
 import priv.xds.util.MessageUtil;
 
@@ -23,6 +27,8 @@ public class SignTask {
 
     private UserMapper userMapper;
 
+    private GroupMapper groupMapper;
+
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
@@ -33,31 +39,47 @@ public class SignTask {
         this.botManager = botManager;
     }
 
+    @Autowired
+    public void setGroupMapper(GroupMapper groupMapper) {
+        this.groupMapper = groupMapper;
+    }
+
     /**
      * 提醒没打卡的人打卡
      */
-    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "50 * * * * ?")
     public void tipSign() {
-        StringBuilder builder = new StringBuilder(30);
-        List<User> unsignedUser = userMapper.getUnsignedUser(new Date(System.currentTimeMillis()));
-        if (unsignedUser.isEmpty()) {
-            // 所有人都打卡了!
-            botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(700026523L, "好耶,今天所有人都打卡了!");
-            return;
+        Logger logger = LoggerFactory.getLogger(SignTask.class);
+        logger.info("开始提醒未打卡的人");
+        for (Group group : groupMapper.getAllRegisteredGroup()) {
+            String groupCode = group.getGroupCode();
+            // 获取没有打卡的人
+            List<User> unsignedUserByGroup = userMapper.getUnsignedUserByGroup(new Date(System.currentTimeMillis()), groupCode);
+            logger.info("今天有" + unsignedUserByGroup.size() + "个人没有打卡");
+            if(unsignedUserByGroup.isEmpty()) {
+                botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(groupCode, "好耶,今天所有人都打卡了!");
+                return;
+            }
+            StringBuilder builder = new StringBuilder(30);
+            for (User user : unsignedUserByGroup) {
+                builder.append(MessageUtil.atSomeone(user.getQq()));
+                builder.append(" ");
+            }
+            builder.append(" 记得打卡!");
+            botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(groupCode, builder.toString());
         }
-        for (User user : unsignedUser) {
-            builder.append(MessageUtil.atSomeone(user.getQq()));
-            builder.append(" ");
-        }
-        builder.append(" 记得打卡!");
-        botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(700026523L, builder.toString());
     }
+
 
     /**
      * 清除打卡缓存
      */
     @Scheduled(cron = "0 0 0 * * ?")
     public void clearRank() {
-        botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(700026523L, "已经可以开始打卡了!");
+        Logger logger = LoggerFactory.getLogger(SignTask.class);
+        logger.info("开始提醒未打卡的人");
+        for (Group group : groupMapper.getAllRegisteredGroup()) {
+            botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(group.getGroupCode(), "已经可以开始打卡了!");
+        }
     }
 }

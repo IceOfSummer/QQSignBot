@@ -24,4 +24,14 @@ public class User {
      * 连续打卡时间
      */
     private int consecutiveSignDays;
+
+    /**
+     * 群号
+     */
+    private String groupCode;
+
+    /**
+     * 权限等级
+     */
+    private int role;
 }

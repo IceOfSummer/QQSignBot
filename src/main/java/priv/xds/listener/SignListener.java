@@ -45,9 +45,9 @@ public class SignListener {
             } else {
                 rank = (Integer) cache.put(groupMsg.getGroupInfo().getGroupCode(), rank + 1);
             }
-            sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]签到成功!今天是第" + rank + "个签到!目前已经连续签到" + signDays + "天");
+            sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]打卡成功!今天是第" + rank + "个打卡!目前已经连续打卡" + signDays + "天");
         } catch (NoRepeatableException e) {
-            sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]签到失败!请不要连续签到");
+            sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]打卡失败!请不要连续签到");
         } catch (Exception e) {
             sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]签到失败" + e.getCause() + ":" + e.getMessage());
             e.printStackTrace();
