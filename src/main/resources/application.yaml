@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: "root"
+    password: "abc123"
+    url: jdbc:mysql://localhost:3306/qqrobot?useUnicode=true&charcterEncoding=utf-8&serverTimezone=GMT%2B8
+    type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  mapper-locations: "classpath:mapper/*.xml"
+  type-aliases-package: priv.xds.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+
+simbot:
+  core:
+    bots: 1872639289:yourpassword
+    scan-package: priv.xds.listener
+  component:
+    mirai:
+      deviceInfoFile: "classpath: device.json"
+
+nekolog:
+  # 是否开启language
+  enableLanguage: true
+  # 是否开启颜色
+  enableColor: true
+  # 使用的日志等级
+  level: INFO
+  # 开启输出堆栈信息
+  enableStack: false
+
+bot:
+  sign:
+    # 指定哪些群执行签到
+    targetGroup: ["700026523"]

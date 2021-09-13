@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.xds.mapper.UserMapper">
+    
+    <select id="queryUserByQq" resultType="User">
+        SELECT * FROM t_user WHERE qq = #{qq}
+    </select>
+
+    <update id="updateSignDays">
+        UPDATE t_user
+        SET consecutive_sign_days = #{signDays},
+            last_sign = #{lastSign}
+        WHERE qq = #{qq}
+    </update>
+
+    <insert id="addUser" parameterType="User">
+        insert into t_user(qq, last_sign, consecutive_sign_days)
+        VALUES (#{qq}, #{lastSign}, #{consecutiveSignDays})
+    </insert>
+
+    <select id="getUnsignedUser" resultType="User">
+        SELECT *
+        FROM t_user
+        WHERE last_sign != #{date}
+    </select>
+    
+</mapper>
