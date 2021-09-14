@@ -1,6 +1,5 @@
 package priv.xds.listener;
 
-import com.mysql.cj.protocol.MessageSender;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.api.message.events.GroupMsg;
@@ -58,20 +57,19 @@ public class CommandListener {
     @Filter(value = "^忽略 \\d+", matchType = MatchType.REGEX_FIND, trim = true)
     @RoleCheck(role = 2)
     public void ignoreSomeone(GroupMsg groupMsg, MsgSender sender) {
-        String text = groupMsg.getText();
-        assert text != null;
-        String[] s = text.split(" ");
-        String qq = text.split(" ")[1];
         String groupCode = groupMsg.getGroupInfo().getGroupCode();
+        String qq = splitQq(groupMsg);
         String accountNickname = null;
         try {
-            userService.ignoreUser(qq, groupCode);
             accountNickname = sender.GETTER.getMemberInfo(groupCode, qq).getAccountNickname();
+        } catch (NoSuchElementException e) {
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "无法找到目标用户!请检查后重新输入");
+        }
+        try {
+            userService.ignoreUser(qq, groupCode);
             sender.SENDER.sendGroupMsg(groupMsg, "已经忽略对" + qq + "(" + accountNickname +")的打卡统计");
         } catch (UnNecessaryInvokeException e) {
             sender.SENDER.sendGroupMsg(groupMsg, qq + "(" + accountNickname +")已经被忽略了");
-        } catch (NoSuchElementException e) {
-            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "无法找到目标用户!请检查后重新输入");
         }
     }
 
@@ -79,21 +77,31 @@ public class CommandListener {
     @Filter(value = "^取消忽略 \\d+", matchType = MatchType.REGEX_FIND, trim = true)
     @RoleCheck(role = 2)
     public void reStatisticsUser(GroupMsg groupMsg, MsgSender sender) {
-        String text = groupMsg.getText();
-        assert text != null;
-        String[] s = text.split(" ");
-        String qq = text.split(" ")[1];
+        String qq = splitQq(groupMsg);
         String groupCode = groupMsg.getGroupInfo().getGroupCode();
         String accountNickname = null;
         try {
-            userService.reStatisticsUser(qq, groupCode);
             accountNickname = sender.GETTER.getMemberInfo(groupCode, qq).getAccountNickname();
+        } catch (NoSuchElementException e) {
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "无法找到目标用户!请检查后重新输入");
+        }
+        try {
+            userService.reStatisticsUser(qq, groupCode);
             sender.SENDER.sendGroupMsg(groupMsg, "已经重新开始统计" + qq + "(" + accountNickname +")的打卡统计");
         } catch (UnNecessaryInvokeException e) {
-            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "无法找到目标用户!请检查后重新输入");
-        } catch (NoSuchElementException e) {
             sender.SENDER.sendGroupMsg(groupMsg, qq + "(" + accountNickname +")仍然还在统计");
         }
+    }
+
+    /**
+     * 从指令分类出要操作的QQ
+     * @param groupMsg 发送的信息对象
+     * @return 指定的qq
+     */
+    private String splitQq(GroupMsg groupMsg) {
+        String text = groupMsg.getText();
+        assert text != null;
+        return text.split(" ")[1];
     }
 
     @OnGroup
@@ -116,4 +124,6 @@ public class CommandListener {
         }
         sender.SENDER.sendGroupMsg(groupMsg, builder.toString());
     }
+
+
 }
