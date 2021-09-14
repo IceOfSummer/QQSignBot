@@ -51,11 +51,12 @@ public class RoleLimiter {
         }
         int curRole;
         if (msg.getPermission().isAdmin() || msg.getPermission().isOwner()) {
+            // 管理员或群主权限为2
             curRole = 2;
         } else {
             curRole = userService.getUserRole(msg.getAccountInfo().getAccountCode(), msg.getGroupInfo().getGroupCode());
         }
-        if (curRole <= role.role()) {
+        if (curRole >= role.role()) {
             // 可以执行
             return joinPoint.proceed();
         } else {

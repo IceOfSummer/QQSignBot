@@ -69,4 +69,20 @@ public interface UserMapper {
      */
     List<User> getAllUsers(@Param("groupCode") String groupCode);
 
+    /**
+     * 忽略某个用户的打卡统计
+     * @param qq qq号
+     * @param groupCode 群号
+     * @return 返回1表示成功, 0表示不需要修改
+     */
+    int ignoreUser(@Param("qq") String qq, @Param("groupCode") String groupCode);
+
+    /**
+     * 重新统计某个用户的打卡统计
+     * @param qq qq号
+     * @param groupCode 群号
+     * @return 返回1表示成功, 0表示不需要修改
+     */
+    int reStatisticsUser(@Param("qq") String qq, @Param("groupCode") String groupCode);
+
 }

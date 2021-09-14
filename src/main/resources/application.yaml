@@ -20,8 +20,13 @@ simbot:
   component:
     mirai:
       deviceInfoFile: "./config/device.json"
+      protocol: ANDROID_PAD
+
 
 
 
 logging:
-  config: "classpath: logback-spring.xml"
+  config: "classpath:logback-spring.xml"
+
+project:
+  version: 0.0.1-SNAPSHOT

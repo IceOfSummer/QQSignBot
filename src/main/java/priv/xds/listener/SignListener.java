@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import priv.xds.annotation.SignGroup;
 import priv.xds.exception.NoRepeatableException;
+import priv.xds.exception.UnNecessaryInvokeException;
 import priv.xds.service.UserService;
+import priv.xds.util.MessageUtil;
 import priv.xds.util.SignCache;
 
 import java.util.Map;
@@ -46,12 +48,13 @@ public class SignListener {
                 cache.put(groupMsg.getGroupInfo().getGroupCode(), rank + 1);
                 rank++;
             }
-            sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]打卡成功!今天是第" + rank + "个打卡!目前已经连续打卡" + signDays + "天");
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) +"打卡成功!今天是第" + rank + "个打卡!目前已经连续打卡" + signDays + "天");
         } catch (NoRepeatableException e) {
-            sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]打卡失败!请不要连续打卡");
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) +"打卡失败!请不要连续打卡");
+        } catch (UnNecessaryInvokeException e) {
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "你已经被忽略了,不会被记入打卡统计!");
         } catch (Exception e) {
-            sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]打卡失败" + e.getCause() + ":" + e.getMessage());
-            e.printStackTrace();
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "打卡失败" + e.getCause() + ":" + e.getMessage());
         }
     }
 

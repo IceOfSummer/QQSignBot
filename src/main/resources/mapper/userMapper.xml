@@ -31,13 +31,13 @@
     <select id="getUnsignedUser" resultType="User">
         SELECT *
         FROM t_user
-        WHERE last_sign != #{date}
+        WHERE last_sign != #{date} AND sign_ignore = FALSE
     </select>
 
     <select id="getUnsignedUserByGroup" resultType="User">
         SELECT *
         FROM t_user
-        WHERE last_sign != #{date} AND group_code = #{groupCode}
+        WHERE last_sign != #{date} AND group_code = #{groupCode} AND sign_ignore = FALSE
     </select>
 
     <select id="getAllUsers" resultType="User">
@@ -45,5 +45,15 @@
         FROM t_user
         WHERE group_code = #{groupCode}
     </select>
+
+    <update id="ignoreUser">
+        UPDATE t_user SET sign_ignore = true
+        WHERE sign_ignore = false AND qq = #{qq} AND group_code = #{groupCode}
+    </update>
+
+    <update id="reStatisticsUser">
+        UPDATE t_user SET sign_ignore = false
+        WHERE sign_ignore = true AND qq = #{qq} AND group_code = #{groupCode}
+    </update>
     
 </mapper>

@@ -8,6 +8,7 @@ import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.constant.PriorityConstant;
 import love.forte.simbot.filter.MatchType;
 import love.forte.simbot.listener.ListenerContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,20 +19,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChatListener {
 
+
     @OnGroup
     @Priority(PriorityConstant.LAST)
     @Filter(value = " ", atBot = true, matchType = MatchType.ENDS_WITH, trim = true)
-    public void replyAt(GroupMsg groupMsg, MsgSender sender, ListenerContext listenerContext) {
+    public void replyAt(GroupMsg groupMsg, MsgSender sender, @Value("${version}") String version) {
         String text = groupMsg.getText();
         if (text == null || text.length() == 0 || text.length() == 1) {
-            sender.SENDER.sendGroupMsg(groupMsg, " ♪（＾∀＾●）ﾉｼ");
+            sender.SENDER.sendGroupMsg(groupMsg, "at我发送'帮助'获取更多支持!\ngithub地址:https://github.com/HuPeng333/QQBot\n当前版本: " + version);
         }
     }
 
     @OnGroup
-    @Filter(atBot = true, value = "test", matchType = MatchType.CONTAINS)
-    public void replySex(GroupMsg groupMsg, MsgSender sender) {
-        sender.SENDER.sendGroupMsg(groupMsg, "[CAT:face=23]");
+    @Filter(atBot = true, value = "帮助", matchType = MatchType.CONTAINS)
+    public void help(GroupMsg groupMsg, MsgSender sender) {
+        sender.SENDER.sendGroupMsg(groupMsg, "- 打卡: 群内用户输入打卡完成每日打卡功能\n" +
+                "- 忽略 *QQ号* : 仅群内管理员或群主可用，可以让机器人不再统计该用户的打卡情况\n" +
+                "- 取消忽略 *QQ号* :  仅群内管理员或群主可用，可以让机器人重新统计该用户的打卡情况\n" +
+                "- 提醒未打卡: 仅群内管理员或群主可用，让机器人at所有没有打卡的人\n" +
+                "- 打卡情况: 所有人可用，显示所有没有打卡的人(不会at)");
     }
 
 

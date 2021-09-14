@@ -34,4 +34,17 @@ public class User {
      * 权限等级
      */
     private int role;
+
+    /**
+     * 是否被忽略
+     */
+    private boolean signIgnore;
+
+//    public boolean isSignIgnore() {
+//        return signIgnore;
+//    }
+//
+//    public void setSignIgnore(boolean signIgnore) {
+//        this.signIgnore = signIgnore;
+//    }
 }

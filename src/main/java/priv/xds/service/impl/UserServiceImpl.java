@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import priv.xds.exception.NoRepeatableException;
+import priv.xds.exception.NoTargetValueException;
+import priv.xds.exception.UnNecessaryInvokeException;
 import priv.xds.mapper.UserMapper;
 import priv.xds.pojo.User;
 import priv.xds.service.UserService;
@@ -29,20 +31,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int sign(String qq, String groupCode) throws Exception {
+    public int sign(String qq, String groupCode) throws UnNecessaryInvokeException, NoRepeatableException, NoTargetValueException {
         User user = userMapper.queryUser(qq, groupCode);
         if (user == null) {
-            // 没找到用户，先注册
-            User newUser = new User();
-            newUser.setQq(qq);
-            newUser.setLastSign(new Date());
-            // 第一次签到，签到天数自动设置为1
-            newUser.setConsecutiveSignDays(1);
-            int i = userMapper.addUser(newUser);
-            if (i == 0) {
-                throw new Exception("添加用户失败");
-            }
-            return 1;
+            throw new NoTargetValueException("没有找到指定用户");
+        }
+        // 查看是否被忽略
+        if (user.isSignIgnore()) {
+            throw new UnNecessaryInvokeException();
         }
         // 查看是否已经注册
         Instant ins = Instant.now();
@@ -66,5 +62,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public int getUserRole(String qq, String groupCode) {
         return userMapper.queryUser(qq, groupCode).getRole();
+    }
+
+    @Override
+    public void ignoreUser(String qq, String groupCode) throws UnNecessaryInvokeException {
+        int i = userMapper.ignoreUser(qq, groupCode);
+        if (i == 0) {
+            throw new UnNecessaryInvokeException("用户:" + qq + ",在群:" + groupCode + "已经被忽略");
+        }
+    }
+
+    @Override
+    public void reStatisticsUser(String qq, String groupCode) throws UnNecessaryInvokeException {
+        int i = userMapper.reStatisticsUser(qq, groupCode);
+        if (i == 0) {
+            throw new UnNecessaryInvokeException("用户:" + qq + ",在群:" + groupCode + "没有被忽略");
+        }
     }
 }

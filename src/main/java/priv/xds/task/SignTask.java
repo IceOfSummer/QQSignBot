@@ -49,7 +49,7 @@ public class SignTask {
     /**
      * 提醒没打卡的人打卡
      */
-    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0 0 10,11,12 * * ?")
     public void tipSign() {
         log.info("开始提醒未打卡的人");
         for (Group group : groupMapper.getAllRegisteredGroup()) {
@@ -77,8 +77,7 @@ public class SignTask {
      */
     @Scheduled(cron = "0 0 0 * * ?")
     public void clearRank() {
-        Logger logger = LoggerFactory.getLogger(SignTask.class);
-        logger.info("开始提醒未打卡的人");
+        log.info("已经重置打卡");
         for (Group group : groupMapper.getAllRegisteredGroup()) {
             botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(group.getGroupCode(), "[CAT:at,all=true]已经可以开始打卡了!");
         }
