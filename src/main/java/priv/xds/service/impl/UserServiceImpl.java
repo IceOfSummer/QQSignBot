@@ -11,6 +11,7 @@ import priv.xds.service.UserService;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author HuPeng
@@ -52,7 +53,18 @@ public class UserServiceImpl implements UserService {
         }
         int curSignDays = user.getConsecutiveSignDays();
         curSignDays++;
-        userMapper.updateSignDays(qq, curSignDays, new Date());
+        userMapper.updateSignDays(qq, curSignDays, new Date(), groupCode);
         return curSignDays;
+    }
+
+    @Override
+    public List<User> getUnsignedUsers(String groupCode) {
+        List<User> unsignedUserByGroup = userMapper.getUnsignedUserByGroup(new java.sql.Date(System.currentTimeMillis()), groupCode);
+        return unsignedUserByGroup.size() == 0 ? null : unsignedUserByGroup;
+    }
+
+    @Override
+    public int getUserRole(String qq, String groupCode) {
+        return userMapper.queryUser(qq, groupCode).getRole();
     }
 }

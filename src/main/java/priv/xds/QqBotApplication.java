@@ -13,8 +13,8 @@ import priv.xds.util.BeanUtil;
 /**
  * @author HuPeng
  */
-@SimbotApplication
 @SpringBootApplication
+@SimbotApplication
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @EnableSimbot

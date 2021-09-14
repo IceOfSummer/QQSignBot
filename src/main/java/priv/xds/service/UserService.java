@@ -1,6 +1,9 @@
 package priv.xds.service;
 
 import priv.xds.exception.NoRepeatableException;
+import priv.xds.pojo.User;
+
+import java.util.List;
 
 /**
  * @author HuPeng
@@ -17,4 +20,19 @@ public interface UserService {
      * @return 签到完毕后的天数
      */
     int sign(String qq, String groupCode) throws Exception;
+
+    /**
+     * 获取没有打卡的用户
+     * @param groupCode qq群
+     * @return 没有打卡的用户
+     */
+    List<User> getUnsignedUsers(String groupCode);
+
+    /**
+     * 查询用户权限等级
+     * @param qq qq号
+     * @param groupCode 群号
+     * @return 权限等级
+     */
+    int getUserRole(String qq, String groupCode);
 }

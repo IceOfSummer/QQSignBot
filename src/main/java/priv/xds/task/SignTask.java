@@ -1,5 +1,6 @@
 package priv.xds.task;
 
+import lombok.extern.slf4j.Slf4j;
 import love.forte.simbot.bot.BotManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import java.util.List;
  * @date 2021-09-13 12:19
  */
 @Component
+@Slf4j
 public class SignTask {
 
     private BotManager botManager;
@@ -49,13 +51,12 @@ public class SignTask {
      */
     @Scheduled(cron = "0 0 12 * * ?")
     public void tipSign() {
-        Logger logger = LoggerFactory.getLogger(SignTask.class);
-        logger.info("开始提醒未打卡的人");
+        log.info("开始提醒未打卡的人");
         for (Group group : groupMapper.getAllRegisteredGroup()) {
             String groupCode = group.getGroupCode();
             // 获取没有打卡的人
             List<User> unsignedUserByGroup = userMapper.getUnsignedUserByGroup(new Date(System.currentTimeMillis()), groupCode);
-            logger.info("今天有" + unsignedUserByGroup.size() + "个人没有打卡");
+            log.info("今天有" + unsignedUserByGroup.size() + "个人没有打卡");
             if(unsignedUserByGroup.isEmpty()) {
                 botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(groupCode, "好耶,今天所有人都打卡了!");
                 return;

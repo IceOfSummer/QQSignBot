@@ -12,7 +12,7 @@
         UPDATE t_user
         SET consecutive_sign_days = #{signDays},
             last_sign = #{lastSign}
-        WHERE qq = #{qq}
+        WHERE qq = #{qq} AND group_code = #{groupCode}
     </update>
 
     <insert id="addUser" parameterType="User">

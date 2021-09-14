@@ -19,17 +19,9 @@ simbot:
     scan-package: priv.xds.listener
   component:
     mirai:
-      deviceInfoFile: "classpath: device.json"
+      deviceInfoFile: "./config/device.json"
 
-nekolog:
-  # 是否开启颜色
-  enableColor: false
-  # 使用的日志等级
-  level: INFO
-  # 开启输出堆栈信息
-  enableStack: false
 
-bot:
-  sign:
-    # 指定哪些群执行签到
-    targetGroup: ["700026523", "1003904857"]
+
+logging:
+  config: "classpath: logback-spring.xml"

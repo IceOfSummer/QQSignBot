@@ -48,11 +48,16 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/love.forte.simple-robot/core-spring-boot-starter -->
         <dependency>
             <groupId>love.forte.simple-robot</groupId>
             <artifactId>core-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>love.forte.common</groupId>
+                    <artifactId>log</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -78,10 +83,6 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.2.0</version>
         </dependency>
-        <dependency>
-            <groupId>love.forte.common</groupId>
-            <artifactId>log</artifactId>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -91,12 +92,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-logging</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>ch.qos.logback</groupId>-->
+<!--                    <artifactId>logback-core</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -110,6 +115,11 @@
             <groupId>love.forte.simple-robot</groupId>
             <artifactId>component-mirai</artifactId>
         </dependency>
+        <dependency>
+            <groupId>love.forte</groupId>
+            <artifactId>catcode</artifactId>
+        </dependency>
+
     </dependencies>
 
 

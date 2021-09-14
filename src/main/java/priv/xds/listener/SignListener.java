@@ -43,7 +43,8 @@ public class SignListener {
                 cache.put(groupMsg.getGroupInfo().getGroupCode(), 1);
                 rank = 1;
             } else {
-                rank = (Integer) cache.put(groupMsg.getGroupInfo().getGroupCode(), rank + 1);
+                cache.put(groupMsg.getGroupInfo().getGroupCode(), rank + 1);
+                rank++;
             }
             sender.SENDER.sendGroupMsg(groupMsg, "[CAT:at,code="+ accountInfo.getAccountCode() +"]打卡成功!今天是第" + rank + "个打卡!目前已经连续打卡" + signDays + "天");
         } catch (NoRepeatableException e) {

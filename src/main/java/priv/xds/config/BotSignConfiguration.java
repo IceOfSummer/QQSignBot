@@ -1,16 +1,14 @@
 package priv.xds.config;
 
+import lombok.extern.slf4j.Slf4j;
 import love.forte.simbot.api.message.containers.AccountCodeContainer;
 import love.forte.simbot.api.message.results.GroupMemberInfo;
 import love.forte.simbot.bot.BotManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
-import priv.xds.aop.SignFilter;
 import priv.xds.mapper.GroupMapper;
 import priv.xds.mapper.UserMapper;
 import priv.xds.pojo.Group;
@@ -27,6 +25,7 @@ import java.util.stream.Collectors;
  */
 @Configuration
 @EnableConfigurationProperties(BotSignProperties.class)
+@Slf4j
 public class BotSignConfiguration {
 
     private BotSignProperties botSignProperties;
@@ -64,18 +63,17 @@ public class BotSignConfiguration {
     @Bean
     @Transactional(rollbackFor = Exception.class)
     public void checkUnregisteredGroup() {
-        Logger logger = LoggerFactory.getLogger(SignFilter.class);
-        logger.info("正在搜索是否有未注册的群组");
+        log.info("正在搜索是否有未注册的群组");
         List<Group> allRegisteredGroup = groupMapper.getAllRegisteredGroup();
         List<String> targetGroup = botSignProperties.getTargetGroup();
 
         if (allRegisteredGroup.isEmpty()) {
             for (String groupCode : targetGroup) {
-                logger.info("正在注册QQ群: " + groupCode);
+                log.info("正在注册QQ群: " + groupCode);
                 registerGroup(groupCode);
-                logger.info("注册完毕");
+                log.info("注册完毕");
             }
-            logger.info("搜索完毕");
+            log.info("搜索完毕");
             return;
         }
 
@@ -89,12 +87,12 @@ public class BotSignConfiguration {
                 }
             }
             if (!isRegistered) {
-                logger.info("正在注册QQ群: " + s);
+                log.info("正在注册QQ群: " + s);
                 registerGroup(s);
-                logger.info("注册完毕");
+                log.info("注册完毕");
             }
         }
-        logger.info("搜索完毕");
+        log.info("搜索完毕");
     }
 
     private void registerGroup(String groupCode) {

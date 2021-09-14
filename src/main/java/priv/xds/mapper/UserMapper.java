@@ -27,8 +27,12 @@ public interface UserMapper {
      * @param qq 要修改的qq
      * @param signDays 连续签到天数
      * @param lastSign 最后签到时间
+     * @param groupCode 群号
      */
-    void updateSignDays(@Param("qq") String qq, @Param("signDays") int signDays, @Param("lastSign") Date lastSign);
+    void updateSignDays(@Param("qq") String qq,
+                        @Param("signDays") int signDays,
+                        @Param("lastSign") Date lastSign,
+                        @Param("groupCode") String groupCode);
 
     /**
      * 添加一个用户
