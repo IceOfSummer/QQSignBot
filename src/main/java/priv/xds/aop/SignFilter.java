@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import priv.xds.config.BotSignProperties;
-import priv.xds.util.LogUtil;
+import priv.xds.exception.MissingParamException;
 
 /**
  * @author HuPeng
@@ -19,7 +19,6 @@ import priv.xds.util.LogUtil;
 @Component
 public class SignFilter {
 
-    private static final Logger logger = LoggerFactory.getLogger(SignFilter.class);
 
     private BotSignProperties botSignProperties;
 
@@ -38,17 +37,13 @@ public class SignFilter {
             }
         }
         if (groupMsg == null) {
-            logger.error(joinPoint.getTarget() + " 没有设置GroupMsg参数,已拒绝该监听");
-            return null;
+            throw new MissingParamException(joinPoint.getTarget() + " 没有设置GroupMsg参数,已拒绝该监听");
         }
         String groupCode = groupMsg.getGroupInfo().getGroupCode();
         for (String s : botSignProperties.getTargetGroup()) {
             if (groupCode.equals(s)) {
                 // 查询到了，正常执行
-                Object proceed = joinPoint.proceed();
-                logger.info("群:" + groupCode + "(" + groupMsg.getGroupInfo().getGroupName() + ")," +
-                        " 成员:" + groupMsg.getAccountInfo().getAccountCode() + "尝试签到");
-                return proceed;
+                return joinPoint.proceed();
             }
         }
         // 没查到，不执行

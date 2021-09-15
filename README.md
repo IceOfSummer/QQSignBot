@@ -7,6 +7,7 @@
 - 取消忽略 *QQ号* :  仅群内管理员或群主可用，可以让机器人重新统计该用户的打卡情况
 - 提醒未打卡: 仅群内管理员或群主可用，让机器人at所有没有打卡的人
 - 打卡情况: 所有人可用，显示所有没有打卡的人(不会at)
+- 代打卡 *QQ号* : 群内管理员或群主手动为某人打卡，一般用于服务器出现bug重启后的补救措施 
 
 
 
@@ -42,5 +43,26 @@ maven clean package
 
 
 
+**application.yaml样例**
 
+```yaml
+spring:
+  # 数据库连接的用户名和密码
+  datasource:
+    username: "root"
+    password: "abc123"
+  profiles:
+    active: pro
+
+simbot:
+  core:
+    # bot的用户名和密码
+    bots: 123:password
+
+bot:
+  sign:
+    # 指定哪些群执行签到
+    targetGroup: [ "123456" ]
+
+```
 

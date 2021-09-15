@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import priv.xds.annotation.RoleCheck;
 import priv.xds.exception.NoRepeatableException;
-import priv.xds.exception.NoTargetValueException;
 import priv.xds.exception.UnNecessaryInvokeException;
 import priv.xds.pojo.User;
 import priv.xds.service.UserService;
@@ -83,11 +82,12 @@ public class CommandListener {
     public void reStatisticsUser(GroupMsg groupMsg, MsgSender sender) {
         String qq = splitQq(groupMsg);
         String groupCode = groupMsg.getGroupInfo().getGroupCode();
-        String accountNickname = null;
+        String accountNickname;
         try {
             accountNickname = sender.GETTER.getMemberInfo(groupCode, qq).getAccountNickname();
         } catch (NoSuchElementException e) {
             GroupUtil.sendNotFoundUser(groupMsg, sender);
+            return;
         }
         try {
             userService.reStatisticsUser(qq, groupCode);
@@ -121,21 +121,18 @@ public class CommandListener {
         for (User unsignedUser : unsignedUsers) {
             GroupMemberInfo memberInfo = sender.GETTER.getMemberInfo(groupMsg.getGroupInfo().getGroupCode(), unsignedUser.getQq());
             builder
-                    .append(memberInfo.getAccountCode())
-                    .append("(")
-                    .append(memberInfo.getAccountNickname())
-                    .append(") ");
+                    .append(MessageUtil.combineQqAndNickname(memberInfo));
         }
         sender.SENDER.sendGroupMsg(groupMsg, builder.toString());
     }
 
     @OnGroup
-    @Filter(value = "^手动签到 \\d+", matchType = MatchType.REGEX_MATCHES, trim = true)
+    @Filter(value = "^代打卡 \\d+", matchType = MatchType.REGEX_MATCHES, trim = true)
     @RoleCheck(role = 2)
     public void signByAdmin(GroupMsg groupMsg, MsgSender sender) {
         String qq = splitQq(groupMsg);
         // 检查用户是否存在
-        GroupAccountInfo targetUser = null;
+        GroupAccountInfo targetUser;
         try {
             targetUser = GroupUtil.getTargetUser(qq, groupMsg, sender);
         } catch (NoSuchElementException e) {
@@ -145,12 +142,11 @@ public class CommandListener {
         // 签到
         try {
             userService.sign(qq, groupMsg.getGroupInfo().getGroupCode());
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "成功帮" + MessageUtil.combineQqAndNickname(targetUser) + "打卡");
         } catch (UnNecessaryInvokeException e) {
             sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + MessageUtil.combineQqAndNickname(targetUser) + "被忽略了");
         } catch (NoRepeatableException e) {
             sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + MessageUtil.combineQqAndNickname(targetUser) + "已经签到了");
-        } catch (NoTargetValueException e) {
-            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + MessageUtil.combineQqAndNickname(targetUser) + "已经找到,但在数据库中没有相关数据");
         }
     }
 

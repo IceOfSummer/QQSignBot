@@ -20,10 +20,9 @@ public interface UserService {
      * @param groupCode qq群
      * @throws NoRepeatableException 用户重复签到
      * @throws UnNecessaryInvokeException 用户已经被忽略了,可以不用签到
-     * @throws NoTargetValueException 找不到用户
      * @return 签到完毕后的天数
      */
-    int sign(String qq, String groupCode) throws UnNecessaryInvokeException, NoRepeatableException, NoTargetValueException;
+    int sign(String qq, String groupCode) throws UnNecessaryInvokeException, NoRepeatableException;
 
     /**
      * 获取没有打卡的用户

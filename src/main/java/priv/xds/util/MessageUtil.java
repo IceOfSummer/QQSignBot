@@ -49,4 +49,24 @@ public class MessageUtil {
         return info.getAccountCode() + "(" + nickName + ")";
     }
 
+    /**
+     *  将用户名和昵称结合
+     * @param msg msg
+     * @return 返回形式: qq(昵称)
+     */
+    public static String combineQqAndNickname(GroupMsg msg) {
+        String nickName = msg.getAccountInfo().getAccountRemark() == null ? msg.getAccountInfo().getAccountNickname() : msg.getAccountInfo().getAccountRemark();
+        return msg.getAccountInfo().getAccountCode() + "(" + nickName + ")";
+    }
+
+    /**
+     * 将群号和名称结合
+     * @param msg msg
+     * @return 返回形式: 群号(群名称)
+     */
+    public static String combineGroupIdAndName(GroupMsg msg) {
+        return msg.getGroupInfo().getGroupCode() + "(" + msg.getGroupInfo().getGroupName() + ")";
+    }
+
+
 }

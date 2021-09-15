@@ -23,4 +23,4 @@ simbot:
     scan-package: priv.xds.listener
 
 project:
-  version: 0.0.1-SNAPSHOTv2
+  version: 0.1.0-RELEASE

@@ -31,10 +31,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int sign(String qq, String groupCode) throws UnNecessaryInvokeException, NoRepeatableException, NoTargetValueException {
+    public int sign(String qq, String groupCode) throws UnNecessaryInvokeException, NoRepeatableException {
         User user = userMapper.queryUser(qq, groupCode);
         if (user == null) {
-            throw new NoTargetValueException("没有找到指定用户");
+//            throw new NoTargetValueException("没有找到指定用户");
+            // 没找到用户，先注册
+            User newUser = new User();
+            newUser.setQq(qq);
+            newUser.setLastSign(new Date());
+            newUser.setConsecutiveSignDays(1);
+            userMapper.addUser(newUser);
+            return 1;
         }
         // 查看是否被忽略
         if (user.isSignIgnore()) {
