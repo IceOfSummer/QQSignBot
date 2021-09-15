@@ -1,0 +1,8 @@
+# 用于开发环境的配置
+simbot:
+  core:
+    bots: 1872639289:yourpassword
+#  component:
+#    mirai:
+      # 使用移动端环境
+#      protocol: ANDROID_PHONE

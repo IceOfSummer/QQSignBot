@@ -1,5 +1,6 @@
 package priv.xds.util;
 
+import love.forte.simbot.api.message.containers.GroupAccountInfo;
 import love.forte.simbot.api.message.events.GroupMsg;
 
 /**
@@ -36,6 +37,16 @@ public class MessageUtil {
      */
     public static String sendImageByFile(String path) {
         return "[CAT:image,file=" + path + "]";
+    }
+
+    /**
+     * 将用户名和昵称结合
+     * @param info info
+     * @return 返回形式: qq(昵称)
+     */
+    public static String combineQqAndNickname(GroupAccountInfo info) {
+        String nickName = info.getAccountRemark() == null ? info.getAccountNickname() : info.getAccountRemark();
+        return info.getAccountCode() + "(" + nickName + ")";
     }
 
 }

@@ -1,0 +1,11 @@
+# 用于生产环境的配置
+logging:
+  config: "classpath:logback-spring.xml"
+
+simbot:
+  core:
+    bots: 1872639289:yourpassword
+  component:
+    mirai:
+      deviceInfoFile: "./config/device.json"
+      protocol: ANDROID_PAD

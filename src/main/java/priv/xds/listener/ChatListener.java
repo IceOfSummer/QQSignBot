@@ -40,6 +40,12 @@ public class ChatListener {
                 "- 打卡情况: 所有人可用，显示所有没有打卡的人(不会at)");
     }
 
+    @OnGroup
+    @Filter(value = "test")
+    public void test(GroupMsg groupMsg, MsgSender sender) {
+        System.out.println(groupMsg.getAccountInfo());
+    }
+
 
 
 }

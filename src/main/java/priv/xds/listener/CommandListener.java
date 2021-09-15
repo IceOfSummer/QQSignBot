@@ -2,6 +2,7 @@ package priv.xds.listener;
 
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
+import love.forte.simbot.api.message.containers.GroupAccountInfo;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.message.results.GroupMemberInfo;
 import love.forte.simbot.api.sender.MsgSender;
@@ -9,9 +10,12 @@ import love.forte.simbot.filter.MatchType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import priv.xds.annotation.RoleCheck;
+import priv.xds.exception.NoRepeatableException;
+import priv.xds.exception.NoTargetValueException;
 import priv.xds.exception.UnNecessaryInvokeException;
 import priv.xds.pojo.User;
 import priv.xds.service.UserService;
+import priv.xds.util.GroupUtil;
 import priv.xds.util.MessageUtil;
 
 import java.util.List;
@@ -63,7 +67,7 @@ public class CommandListener {
         try {
             accountNickname = sender.GETTER.getMemberInfo(groupCode, qq).getAccountNickname();
         } catch (NoSuchElementException e) {
-            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "无法找到目标用户!请检查后重新输入");
+            GroupUtil.sendNotFoundUser(groupMsg, sender);
         }
         try {
             userService.ignoreUser(qq, groupCode);
@@ -83,7 +87,7 @@ public class CommandListener {
         try {
             accountNickname = sender.GETTER.getMemberInfo(groupCode, qq).getAccountNickname();
         } catch (NoSuchElementException e) {
-            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "无法找到目标用户!请检查后重新输入");
+            GroupUtil.sendNotFoundUser(groupMsg, sender);
         }
         try {
             userService.reStatisticsUser(qq, groupCode);
@@ -123,6 +127,31 @@ public class CommandListener {
                     .append(") ");
         }
         sender.SENDER.sendGroupMsg(groupMsg, builder.toString());
+    }
+
+    @OnGroup
+    @Filter(value = "^手动签到 \\d+", matchType = MatchType.REGEX_MATCHES, trim = true)
+    @RoleCheck(role = 2)
+    public void signByAdmin(GroupMsg groupMsg, MsgSender sender) {
+        String qq = splitQq(groupMsg);
+        // 检查用户是否存在
+        GroupAccountInfo targetUser = null;
+        try {
+            targetUser = GroupUtil.getTargetUser(qq, groupMsg, sender);
+        } catch (NoSuchElementException e) {
+            GroupUtil.sendNotFoundUser(groupMsg, sender);
+            return;
+        }
+        // 签到
+        try {
+            userService.sign(qq, groupMsg.getGroupInfo().getGroupCode());
+        } catch (UnNecessaryInvokeException e) {
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + MessageUtil.combineQqAndNickname(targetUser) + "被忽略了");
+        } catch (NoRepeatableException e) {
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + MessageUtil.combineQqAndNickname(targetUser) + "已经签到了");
+        } catch (NoTargetValueException e) {
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + MessageUtil.combineQqAndNickname(targetUser) + "已经找到,但在数据库中没有相关数据");
+        }
     }
 
 
