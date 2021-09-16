@@ -25,7 +25,7 @@ public class ChatListener {
     @Filter(value = " ", atBot = true, matchType = MatchType.ENDS_WITH, trim = true)
     public void replyAt(GroupMsg groupMsg, MsgSender sender) {
         String text = groupMsg.getText();
-        if (text == null || text.length() == 0 || text.length() == 1) {
+        if (text.length() == 0 || text.length() == 1) {
             sender.SENDER.sendGroupMsg(groupMsg, "at我发送'帮助'获取更多支持!\ngithub地址:https://github.com/HuPeng333/QQBot\n当前版本: ");
         }
     }
@@ -44,7 +44,7 @@ public class ChatListener {
     @OnGroup
     @Filter(value = "test")
     public void test(GroupMsg groupMsg, MsgSender sender) {
-        System.out.println(groupMsg.getAccountInfo());
+        sender.SENDER.sendGroupMsg(groupMsg, "[CAT:image,file=classpath:images/signAfterNoon.jpg]");
     }
 
 

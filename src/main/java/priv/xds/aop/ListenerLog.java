@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import priv.xds.util.MessageUtil;
 
 /**
+ * 监听listener调用,输出日志
  * @author "DeSen Xu"
  * @date 2021-09-15 13:56
  */

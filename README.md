@@ -59,10 +59,11 @@ simbot:
     # bot的用户名和密码
     bots: 123:password
 
-bot:
-  sign:
-    # 指定哪些群执行签到
-    targetGroup: [ "123456" ]
+# 已经废弃,现在机器人加入所有群聊都有效
+# bot:
+#   sign:
+#     # 指定哪些群执行签到
+#     targetGroup: [ "123456" ]
 
 ```
 

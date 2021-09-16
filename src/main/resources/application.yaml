@@ -21,3 +21,63 @@ simbot:
       deviceInfoFile: "./config/device.json"
   core:
     scan-package: priv.xds.listener
+
+bot:
+  reply:
+    signReply: [
+      # 0:00 - 0:30
+      [
+          "已打卡![CAT:face=66] [CAT:face=66] [CAT:face=66]",
+          "打卡真快![CAT:image,file=classpath:images/love.jpg]\n(打卡成功)",
+          "打卡真快![CAT:image,file=classpath:images/cuteCat.png]\n(打卡成功)",
+          "打卡真快![CAT:image,file=classpath:images/flowers3.jpg]\n(打卡成功)",
+          "打卡好积极![CAT:image,file=classpath:images/flowers.jpg]\n(打卡成功)",
+          "打卡好积极![CAT:image,file=classpath:images/cheers.png]\n(打卡成功)",
+          "打卡好积极![CAT:image,file=classpath:images/cheers2.jpg]\n(打卡成功)",
+          "打卡好积极![CAT:image,file=classpath:images/flowers2.jpg]\n(打卡成功)",
+      ],
+      # 0:30 - 5:00
+      [
+          "打卡成功[CAT:image,file=classpath:images/sleep01.jpg]",
+          "还在熬夜吗?已经打卡了,早点睡吧!",
+          "打卡成功,早点去睡吧",
+          "打卡成功[CAT:image,file=classpath:images/signMidnight.jpeg]",
+          "打卡成功[CAT:image,file=classpath:images/signMidnight2.jpeg]",
+          "打卡成功[CAT:image,file=classpath:images/signMidnight3.jpg]",
+          "打卡成功[CAT:image,file=classpath:images/signMidnight4.jpg]",
+          "打卡成功!我去睡觉了,不等你了哦?"
+      ],
+      # 5:00 - 7:00
+      [
+          "起来这么早,是今天有什么要事吗?\n(打卡成功)",
+          "起来这么早,辛苦了\n(打卡成功)",
+          "大佬起床真早!\n(打卡成功)",
+          "要是没事还可以再在床上躺躺哦?\n(打卡成功)"
+      ],
+      # 7:00 - 8:00
+      [
+          "早上好啊,已经帮你记录打卡了!",
+          "打卡成功早八人[CAT:image,file=classpath:images/doge.jpg.jpg]",
+          "早上好!希望你有美好的一天!\n(打卡成功)",
+          "[CAT:image,file=classpath:images/goodMorning.jpeg]\n(打卡成功)",
+          "[CAT:image,file=classpath:images/goodMorning2.gif]\n(打卡成功)",
+          "[CAT:image,file=classpath:images/morning.jpg]\n(打卡成功)"
+      ],
+      # 8:00 - 10:00
+      [
+          "打卡成功![CAT:face=320]"
+      ],
+      # 10:00 - 12:00
+      [
+          "快快快,都要来不及了!\n(打卡成功)",
+          "幸好有我提醒[CAT:face=13]\n(打卡成功)"
+      ],
+      # 12:00 - 13:00
+      [
+          "都已经过中午了!我不管了![CAT:face=23]"
+      ],
+      # 13:00 - 23:59
+      [
+          "怎么现在才打卡![CAT:image,file=classpath:images/signAfterNoon.jpg]"
+      ]
+    ]

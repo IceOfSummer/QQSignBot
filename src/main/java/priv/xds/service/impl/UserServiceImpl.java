@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
             newUser.setQq(qq);
             newUser.setLastSign(new Date());
             newUser.setConsecutiveSignDays(1);
+            newUser.setGroupCode(groupCode);
             userMapper.addUser(newUser);
             return 1;
         }
