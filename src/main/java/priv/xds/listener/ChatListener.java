@@ -7,8 +7,6 @@ import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.constant.PriorityConstant;
 import love.forte.simbot.filter.MatchType;
-import love.forte.simbot.listener.ListenerContext;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**

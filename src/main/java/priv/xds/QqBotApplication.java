@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import priv.xds.util.BeanUtil;
 
 /**
  * @author HuPeng
@@ -23,7 +22,7 @@ import priv.xds.util.BeanUtil;
 public class QqBotApplication {
 
     public static void main(String[] args) {
-        BeanUtil.applicationContext = SpringApplication.run(QqBotApplication.class, args);
+        SpringApplication.run(QqBotApplication.class, args);
     }
 
 }
