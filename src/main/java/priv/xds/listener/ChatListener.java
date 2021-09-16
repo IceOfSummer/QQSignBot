@@ -7,6 +7,7 @@ import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.constant.PriorityConstant;
 import love.forte.simbot.filter.MatchType;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,15 +18,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChatListener {
 
+    @Value("${app.version}")
+    private String version;
+
 
     @OnGroup
     @Priority(PriorityConstant.LAST)
-    @Filter(value = " ", atBot = true, matchType = MatchType.ENDS_WITH, trim = true)
+    @Filter(value = "^\\s*", atBot = true, matchType = MatchType.REGEX_MATCHES)
     public void replyAt(GroupMsg groupMsg, MsgSender sender) {
-        String text = groupMsg.getText();
-        if (text.length() == 0 || text.length() == 1) {
-            sender.SENDER.sendGroupMsg(groupMsg, "at我发送'帮助'获取更多支持!\ngithub地址:https://github.com/HuPeng333/QQBot\n当前版本: ");
-        }
+        sender.SENDER.sendGroupMsg(groupMsg, "at我发送'帮助'获取更多支持!\ngithub地址:https://github.com/HuPeng333/QQBot\n当前版本: " + version);
     }
 
     @OnGroup
