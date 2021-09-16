@@ -52,23 +52,25 @@ public class SignTask {
     @Scheduled(cron = "0 0 10,11,12 * * ?")
     public void tipSign() {
         log.info("开始提醒未打卡的人");
-        for (Group group : groupMapper.getAllRegisteredGroup()) {
-            String groupCode = group.getGroupCode();
-            // 获取没有打卡的人
-            List<User> unsignedUserByGroup = userMapper.getUnsignedUserByGroup(new Date(System.currentTimeMillis()), groupCode);
-            log.info("今天有" + unsignedUserByGroup.size() + "个人没有打卡");
-            if(unsignedUserByGroup.isEmpty()) {
-                botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(groupCode, "好耶,今天所有人都打卡了!");
-                return;
-            }
-            StringBuilder builder = new StringBuilder(30);
-            for (User user : unsignedUserByGroup) {
-                builder.append(MessageUtil.atSomeone(user.getQq()));
-                builder.append(" ");
-            }
-            builder.append(" 记得打卡!");
-            botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(groupCode, builder.toString());
-        }
+        userMapper.getAllUnsignedUser();
+
+//        for (Group group : groupMapper.getAllRegisteredGroup()) {
+//            String groupCode = group.getGroupCode();
+//            // 获取没有打卡的人
+//            List<User> unsignedUserByGroup = userMapper.getUnsignedUserByGroup(new Date(System.currentTimeMillis()), groupCode);
+//            log.info("今天有" + unsignedUserByGroup.size() + "个人没有打卡");
+//            if(unsignedUserByGroup.isEmpty()) {
+//                botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(groupCode, "好耶,今天所有人都打卡了!");
+//                return;
+//            }
+//            StringBuilder builder = new StringBuilder(30);
+//            for (User user : unsignedUserByGroup) {
+//                builder.append(MessageUtil.atSomeone(user.getQq()));
+//                builder.append(" ");
+//            }
+//            builder.append(" 记得打卡!");
+//            botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(groupCode, builder.toString());
+//        }
     }
 
 

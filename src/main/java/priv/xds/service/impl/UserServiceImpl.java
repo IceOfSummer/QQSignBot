@@ -56,13 +56,13 @@ public class UserServiceImpl implements UserService {
         }
         int curSignDays = user.getConsecutiveSignDays();
         curSignDays++;
-        userMapper.updateSignDays(qq, curSignDays, new Date(), groupCode);
+        userMapper.updateSignDays(qq, curSignDays, groupCode);
         return curSignDays;
     }
 
     @Override
     public List<User> getUnsignedUsers(String groupCode) {
-        List<User> unsignedUserByGroup = userMapper.getUnsignedUserByGroup(new java.sql.Date(System.currentTimeMillis()), groupCode);
+        List<User> unsignedUserByGroup = userMapper.getUnsignedUserByGroup(groupCode);
         return unsignedUserByGroup.size() == 0 ? null : unsignedUserByGroup;
     }
 

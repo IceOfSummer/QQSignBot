@@ -21,6 +21,3 @@ simbot:
       deviceInfoFile: "./config/device.json"
   core:
     scan-package: priv.xds.listener
-
-project:
-  version: 0.1.0-RELEASE

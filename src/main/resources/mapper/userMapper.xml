@@ -11,7 +11,7 @@
     <update id="updateSignDays">
         UPDATE t_user
         SET consecutive_sign_days = #{signDays},
-            last_sign = #{lastSign}
+            last_sign = curdate()
         WHERE qq = #{qq} AND group_code = #{groupCode}
     </update>
 
@@ -28,16 +28,16 @@
         </foreach>
     </insert>
 
-    <select id="getUnsignedUser" resultType="User">
+    <select id="getAllUnsignedUser" resultType="User">
         SELECT *
         FROM t_user
-        WHERE last_sign != #{date} AND sign_ignore = FALSE
+        WHERE last_sign != CURDATE() AND sign_ignore = FALSE
     </select>
 
     <select id="getUnsignedUserByGroup" resultType="User">
         SELECT *
         FROM t_user
-        WHERE last_sign != #{date} AND group_code = #{groupCode} AND sign_ignore = FALSE
+        WHERE last_sign != CURDATE() AND group_code = #{groupCode} AND sign_ignore = FALSE
     </select>
 
     <select id="getAllUsers" resultType="User">

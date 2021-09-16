@@ -23,10 +23,10 @@ public class ChatListener {
     @OnGroup
     @Priority(PriorityConstant.LAST)
     @Filter(value = " ", atBot = true, matchType = MatchType.ENDS_WITH, trim = true)
-    public void replyAt(GroupMsg groupMsg, MsgSender sender, @Value("${version}") String version) {
+    public void replyAt(GroupMsg groupMsg, MsgSender sender) {
         String text = groupMsg.getText();
         if (text == null || text.length() == 0 || text.length() == 1) {
-            sender.SENDER.sendGroupMsg(groupMsg, "at我发送'帮助'获取更多支持!\ngithub地址:https://github.com/HuPeng333/QQBot\n当前版本: " + version);
+            sender.SENDER.sendGroupMsg(groupMsg, "at我发送'帮助'获取更多支持!\ngithub地址:https://github.com/HuPeng333/QQBot\n当前版本: ");
         }
     }
 
