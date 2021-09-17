@@ -104,7 +104,6 @@ public class CommandListener {
      */
     private String splitQq(GroupMsg groupMsg) {
         String text = groupMsg.getText();
-        assert text != null;
         return text.split(" ")[1];
     }
 

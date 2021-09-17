@@ -79,3 +79,6 @@ bot:
           "怎么现在才打卡![CAT:image,file=classpath:images/signAfterNoon.jpg]"
       ]
     ]
+
+weather:
+  url: https://tianqiapi.com/api

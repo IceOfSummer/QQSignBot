@@ -2,15 +2,20 @@ package priv.xds.task;
 
 import lombok.extern.slf4j.Slf4j;
 import love.forte.simbot.api.message.results.SimpleGroupInfo;
+import love.forte.simbot.api.sender.BotSender;
 import love.forte.simbot.bot.BotManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import priv.xds.function.WeatherForecaster;
 import priv.xds.mapper.GroupMapper;
 import priv.xds.mapper.UserMapper;
 import priv.xds.pojo.Group;
 import priv.xds.pojo.User;
+import priv.xds.pojo.Weather;
 import priv.xds.util.MessageUtil;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +34,8 @@ public class SignTask {
 
     private GroupMapper groupMapper;
 
+    private WeatherForecaster weatherForecaster;
+
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
@@ -42,6 +49,11 @@ public class SignTask {
     @Autowired
     public void setGroupMapper(GroupMapper groupMapper) {
         this.groupMapper = groupMapper;
+    }
+
+    @Autowired
+    public void setWeatherForecaster(WeatherForecaster weatherForecaster) {
+        this.weatherForecaster = weatherForecaster;
     }
 
     /**
@@ -78,8 +90,18 @@ public class SignTask {
     @Scheduled(cron = "10 0 0 * * ?")
     public void clearRank() {
         log.info("重置所有群组的打卡");
+        Weather weather = null;
+        try {
+            weather = weatherForecaster.getWeather();
+        } catch (IOException e) {
+            log.error(String.valueOf(e));
+        }
         for (Group group : groupMapper.getAllRegisteredGroup()) {
-            botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(group.getGroupCode(), "[CAT:at,all=true]已经可以开始打卡了!" + MessageUtil.sendImageByFile("classpath:images/cute.jpg"));
+            BotSender sender = botManager.getDefaultBot().getSender();
+            sender.SENDER.sendGroupMsg(group.getGroupCode(), "[CAT:at,all=true]打卡开始了!");
+            if (weather != null) {
+                sender.SENDER.sendGroupMsg(group.getGroupCode(),"↓↓↓↓↓今日天气↓↓↓↓↓\n" + weather);
+            }
         }
     }
 }

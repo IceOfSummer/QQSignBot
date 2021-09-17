@@ -7,8 +7,12 @@ import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.constant.PriorityConstant;
 import love.forte.simbot.filter.MatchType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import priv.xds.function.WeatherForecaster;
+
+import java.io.IOException;
 
 /**
  * 用于平常聊天
@@ -21,6 +25,12 @@ public class ChatListener {
     @Value("${app.version}")
     private String version;
 
+    private WeatherForecaster weatherForecaster;
+
+    @Autowired
+    public void setWeatherForecaster(WeatherForecaster weatherForecaster) {
+        this.weatherForecaster = weatherForecaster;
+    }
 
     @OnGroup
     @Priority(PriorityConstant.LAST)
@@ -39,8 +49,5 @@ public class ChatListener {
                 "- 打卡情况: 所有人可用，显示所有没有打卡的人(不会at)\n" +
                 "- 手动打卡 *QQ号* : 群内管理员或群主手动为某人打卡，一般用于服务器出现bug重启后的补救措施 ");
     }
-
-
-
 
 }
