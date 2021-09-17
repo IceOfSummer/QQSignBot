@@ -40,11 +40,6 @@ public class ChatListener {
                 "- 手动打卡 *QQ号* : 群内管理员或群主手动为某人打卡，一般用于服务器出现bug重启后的补救措施 ");
     }
 
-    @OnGroup
-    @Filter(value = "test")
-    public void test(GroupMsg groupMsg, MsgSender sender) {
-        sender.SENDER.sendGroupMsg(groupMsg, "[CAT:image,file=classpath:images/signAfterNoon.jpg]");
-    }
 
 
 

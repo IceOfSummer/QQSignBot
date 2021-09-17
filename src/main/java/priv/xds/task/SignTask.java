@@ -58,6 +58,7 @@ public class SignTask {
             log.info("群: " + groupCode + "有" + size + "个人没有打卡");
             if (size == 0) {
                 botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(groupCode, "好耶!今天所有人都打卡了" + MessageUtil.sendImageByFile("classpath:images/happy.jpg"));
+                return;
             }
             StringBuilder builder = new StringBuilder(size * 20);
             for (User user : collect) {
