@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import priv.xds.config.BotReplyProperties;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**

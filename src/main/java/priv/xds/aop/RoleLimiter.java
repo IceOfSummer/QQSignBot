@@ -23,7 +23,6 @@ import priv.xds.util.MessageUtil;
 @Component
 public class RoleLimiter {
 
-    public static final String LISTENER_RUN_TIMES = "runTimes";
 
     private UserService userService;
 

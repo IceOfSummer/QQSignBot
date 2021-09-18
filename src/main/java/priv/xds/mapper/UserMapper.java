@@ -3,8 +3,6 @@ package priv.xds.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import priv.xds.pojo.User;
-
-import java.util.Date;
 import java.util.List;
 
 /**

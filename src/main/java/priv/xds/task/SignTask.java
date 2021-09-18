@@ -7,15 +7,9 @@ import love.forte.simbot.bot.BotManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import priv.xds.function.WeatherForecaster;
-import priv.xds.mapper.GroupMapper;
 import priv.xds.mapper.UserMapper;
-import priv.xds.pojo.Group;
 import priv.xds.pojo.User;
-import priv.xds.pojo.Weather;
 import priv.xds.util.MessageUtil;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,9 +26,6 @@ public class SignTask {
 
     private UserMapper userMapper;
 
-    private GroupMapper groupMapper;
-
-    private WeatherForecaster weatherForecaster;
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
@@ -46,15 +37,6 @@ public class SignTask {
         this.botManager = botManager;
     }
 
-    @Autowired
-    public void setGroupMapper(GroupMapper groupMapper) {
-        this.groupMapper = groupMapper;
-    }
-
-    @Autowired
-    public void setWeatherForecaster(WeatherForecaster weatherForecaster) {
-        this.weatherForecaster = weatherForecaster;
-    }
 
     /**
      * 提醒没打卡的人打卡
@@ -90,18 +72,9 @@ public class SignTask {
     @Scheduled(cron = "10 0 0 * * ?")
     public void clearRank() {
         log.info("重置所有群组的打卡");
-        Weather weather = null;
-        try {
-            weather = weatherForecaster.getWeather();
-        } catch (IOException e) {
-            log.error(String.valueOf(e));
-        }
-        for (Group group : groupMapper.getAllRegisteredGroup()) {
-            BotSender sender = botManager.getDefaultBot().getSender();
-            sender.SENDER.sendGroupMsg(group.getGroupCode(), "[CAT:at,all=true]打卡开始了!");
-            if (weather != null) {
-                sender.SENDER.sendGroupMsg(group.getGroupCode(),"↓↓↓↓↓今日天气↓↓↓↓↓\n" + weather);
-            }
+        BotSender bot = botManager.getDefaultBot().getSender();
+        for (SimpleGroupInfo simpleGroupInfo : bot.GETTER.getGroupList().stream().collect(Collectors.toList())) {
+            bot.SENDER.sendGroupMsg(simpleGroupInfo.getGroupCode(), "[CAT:at,all=true]打卡开始了!");
         }
     }
 }

@@ -22,15 +22,6 @@ public class MessageUtil {
     }
 
     /**
-     * 发送网络图片
-     * @param url 网络图片路径
-     * @return 猫猫码
-     */
-    public static String sendImageByUrl(String url) {
-        return "[CAT:image,url=" + url + "]";
-    }
-
-    /**
      * 发送本地图片
      * @param path 本地图片的位置
      * @return  猫猫码
