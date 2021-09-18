@@ -6,17 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 用于检测用户权限
- * @author "DeSen Xu"
+ * 用于表示某个监听器需要在开启统计后才能使用
+ * @author DeSen Xu
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface RoleCheck {
-    /**
-     * 用户权限等级
-     * 1为默认等级
-     * 2为管理员
-     * 3为超级管理员
-     */
-    int value();
+public @interface CheckStatistic {
 }

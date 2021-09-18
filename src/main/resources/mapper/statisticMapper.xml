@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.xds.mapper.StatisticMapper">
+
+    <insert id="addContent">
+        INSERT into t_statistic(content, qq, statistic_group_id)
+        VALUES (#{content}, #{qq}, #{statisticGroupId})
+    </insert>
+
+    <select id="getStatistic" resultType="Statistic">
+        select * from t_statistic where qq = #{qq} and statistic_group_id = #{statisticGroupId}
+    </select>
+
+
+
+</mapper>

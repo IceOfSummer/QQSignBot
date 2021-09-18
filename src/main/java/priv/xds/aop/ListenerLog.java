@@ -18,7 +18,7 @@ import priv.xds.util.MessageUtil;
 @Slf4j
 public class ListenerLog {
 
-    @After("execution(* priv.xds.listener.*.*(..))")
+    @After("execution(* priv.xds.listener.*.*(..)) && @annotation(love.forte.simbot.annotation.OnGroup)")
     public void after(JoinPoint joinPoint) {
         GroupMsg groupMsg = null;
         for (Object arg : joinPoint.getArgs()) {

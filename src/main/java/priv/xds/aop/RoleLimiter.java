@@ -55,7 +55,7 @@ public class RoleLimiter {
         } else {
             curRole = userService.getUserRole(msg.getAccountInfo().getAccountCode(), msg.getGroupInfo().getGroupCode());
         }
-        if (curRole >= role.role()) {
+        if (curRole >= role.value()) {
             // 可以执行
             return joinPoint.proceed();
         } else {

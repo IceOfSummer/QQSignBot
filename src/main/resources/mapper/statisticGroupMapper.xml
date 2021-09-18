@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.xds.mapper.StatisticGroupMapper">
+    
+    <insert id="addStatistic" parameterType="StatisticGroup" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
+        insert into t_statistic_group(group_code, name) VALUES (#{groupCode}, #{name})
+    </insert>
+
+    <delete id="deleteStatistic">
+        delete FROM t_statistic_group where id = #{id} and group_code = #{groupCode}
+    </delete>
+
+    <update id="stopStatistic">
+        update t_statistic_group set active = false WHERE id = #{id} and group_code = #{groupCode}
+    </update>
+
+    <select id="getStatistic" resultType="Statistic">
+        select u.* from t_statistic_group as g
+        join t_statistic as u
+        on g.id = u.statistic_group_id
+        where g.id = #{id} and g.group_code = #{groupCode}
+    </select>
+
+    <select id="getAllStatistic" resultType="StatisticGroup">
+        select * from t_statistic_group
+        where group_code = #{groupCode}
+    </select>
+
+    <select id="getActiveStatistic" resultType="StatisticGroup">
+        select * from t_statistic_group
+        where group_code = #{groupCode} and active = true
+    </select>
+    
+</mapper>

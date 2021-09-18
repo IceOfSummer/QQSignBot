@@ -17,5 +17,10 @@ public class JsonTest {
         System.out.println(weather);
     }
 
+    @Test
+    public void t2() {
+        System.out.println(" ".trim());
+    }
+
 
 }
