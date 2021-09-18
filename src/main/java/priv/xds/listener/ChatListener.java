@@ -8,16 +8,15 @@ import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.constant.PriorityConstant;
 import love.forte.simbot.filter.MatchType;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
-import java.io.IOException;
 
 /**
  * 用于平常聊天
  * @author HuPeng
  * @date 2021-09-13 22:34
  */
-@Component
+@Controller
 public class ChatListener {
 
     @Value("${app.version}")

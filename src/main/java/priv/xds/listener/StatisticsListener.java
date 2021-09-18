@@ -7,7 +7,7 @@ import love.forte.simbot.api.message.results.GroupMemberInfo;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import priv.xds.annotation.RoleCheck;
 import priv.xds.enums.SizeLimiter;
 import priv.xds.exception.NoRepeatableException;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @author DeSen Xu
  * @date 2021-09-18 13:32
  */
-@Component
+@Controller
 public class StatisticsListener {
 
     private StatisticGroupService statisticGroupService;

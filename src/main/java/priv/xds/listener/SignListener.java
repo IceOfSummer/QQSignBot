@@ -8,7 +8,7 @@ import love.forte.simbot.api.message.results.GroupMemberInfo;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import priv.xds.annotation.RoleCheck;
 import priv.xds.exception.NoRepeatableException;
 import priv.xds.exception.UnNecessaryInvokeException;
@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
  * @author HuPeng
  * @date 2021-09-12 22:47
  */
-@Component
+@Controller
 public class SignListener {
 
     private UserService userService;
@@ -49,7 +49,7 @@ public class SignListener {
                      MsgSender sender) {
         GroupAccountInfo accountInfo = groupMsg.getAccountInfo();
         try {
-            int signDays = userService.sign(accountInfo.getAccountCode(), groupMsg.getGroupInfo().getGroupCode());
+            userService.sign(accountInfo.getAccountCode(), groupMsg.getGroupInfo().getGroupCode());
             sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + randomMessage.getRandomReply());
         } catch (NoRepeatableException e) {
             sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) +"打卡失败!请不要连续打卡");

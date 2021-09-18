@@ -21,11 +21,6 @@ public class User {
     private Date lastSign;
 
     /**
-     * 连续打卡时间
-     */
-    private int consecutiveSignDays;
-
-    /**
      * 群号
      */
     private String groupCode;
@@ -39,12 +34,4 @@ public class User {
      * 是否被忽略
      */
     private boolean signIgnore;
-
-//    public boolean isSignIgnore() {
-//        return signIgnore;
-//    }
-//
-//    public void setSignIgnore(boolean signIgnore) {
-//        this.signIgnore = signIgnore;
-//    }
 }

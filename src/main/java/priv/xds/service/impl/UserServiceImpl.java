@@ -1,5 +1,8 @@
 package priv.xds.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
+import love.forte.simbot.api.message.results.GroupMemberInfo;
+import love.forte.simbot.api.message.results.GroupMemberList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,12 +15,14 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author HuPeng
  * @date 2021-09-12 23:47
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private UserMapper userMapper;
@@ -29,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int sign(String qq, String groupCode) throws UnNecessaryInvokeException, NoRepeatableException {
+    public void sign(String qq, String groupCode) throws UnNecessaryInvokeException, NoRepeatableException {
         User user = userMapper.queryUser(qq, groupCode);
         if (user == null) {
 //            throw new NoTargetValueException("没有找到指定用户");
@@ -37,10 +42,9 @@ public class UserServiceImpl implements UserService {
             User newUser = new User();
             newUser.setQq(qq);
             newUser.setLastSign(new Date());
-            newUser.setConsecutiveSignDays(1);
             newUser.setGroupCode(groupCode);
             userMapper.addUser(newUser);
-            return 1;
+            return;
         }
         // 查看是否被忽略
         if (user.isSignIgnore()) {
@@ -53,10 +57,6 @@ public class UserServiceImpl implements UserService {
         if (l == 0) {
             throw new NoRepeatableException("不能重复签到");
         }
-        int curSignDays = user.getConsecutiveSignDays();
-        curSignDays++;
-        userMapper.updateSignDays(qq, curSignDays, groupCode);
-        return curSignDays;
     }
 
     @Override
@@ -84,5 +84,28 @@ public class UserServiceImpl implements UserService {
         if (i == 0) {
             throw new UnNecessaryInvokeException("用户:" + qq + ",在群:" + groupCode + "没有被忽略");
         }
+    }
+
+    @Override
+    public int initGroup(String groupCode, GroupMemberList groupMemberList) throws UnNecessaryInvokeException {
+        List<User> allUsers = userMapper.getAllUsers(groupCode);
+        List<String> collect = allUsers.stream().map(User::getQq).collect(Collectors.toList());
+
+        List<User> unRegisteredUsers = groupMemberList.stream()
+                .filter(groupMemberInfo -> !collect.contains(groupMemberInfo.getAccountCode()))
+                .map(groupMemberInfo -> {
+                    User user = new User();
+                    user.setGroupCode(groupCode);
+                    user.setQq(groupMemberInfo.getAccountCode());
+                    user.setLastSign(new Date());
+                    return user;
+                })
+                .collect(Collectors.toList());
+        if (unRegisteredUsers.isEmpty()) {
+            // 已经全部添加
+            throw new UnNecessaryInvokeException();
+        }
+        userMapper.addUsers(unRegisteredUsers);
+        return unRegisteredUsers.size();
     }
 }
