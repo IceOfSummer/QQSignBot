@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import priv.xds.function.WeatherForecaster;
 import priv.xds.pojo.Weather;
-
 import java.io.IOException;
 import java.util.stream.Collectors;
 
@@ -50,7 +49,7 @@ public class WeatherTask {
         }
         BotSender bot = botManager.getDefaultBot().getSender();
         for (SimpleGroupInfo simpleGroupInfo : bot.GETTER.getGroupList().stream().collect(Collectors.toList())) {
-            bot.SENDER.sendGroupMsg(simpleGroupInfo.getGroupCode(), "===今日天气===" + weather.toString());
+            bot.SENDER.sendGroupMsg(simpleGroupInfo.getGroupCode(), "===今日天气===\n" + weather.toString());
             log.info("天气提醒: " + simpleGroupInfo.getGroupCode());
         }
         log.info("提醒完毕");

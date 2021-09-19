@@ -24,6 +24,12 @@ public interface UserService {
     void sign(String qq, String groupCode) throws UnNecessaryInvokeException, NoRepeatableException;
 
     /**
+     * 对指定的qq,让其在所有群都完成打卡签到
+     * @param qq qq号
+     */
+    void sign(String qq);
+
+    /**
      * 获取没有打卡的用户
      * @param groupCode qq群
      * @return 没有打卡的用户

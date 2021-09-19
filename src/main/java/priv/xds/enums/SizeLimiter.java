@@ -17,7 +17,20 @@ public enum SizeLimiter {
     /**
      * 当要把字符串转换为数字时,使用该值限制字符串长度
      */
-    NUMBER(10);
+    NUMBER(10),
+    /**
+     * QQ号
+     */
+    QQ(20),
+    /**
+     * token的长度
+     */
+    TOKEN(250),
+    /**
+     * 自动打卡所用数据的长度
+     */
+    AUTO_SIGN_COMMON(13);
+
 
     private final int maxLength;
 

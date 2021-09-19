@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.xds.mapper.AutoSignMapper">
+
+    <insert id="resistAutoSign" parameterType="AutoSign">
+        REPLACE into t_auto_sign(qq, token, yhm, lxdh, jjlxr, jjlxdh)
+        VALUES (#{qq}, #{token}, #{yhm}, #{lxdh}, #{jjlxr}, #{jjlxdh})
+    </insert>
+
+    <update id="updateAutoSign" parameterType="AutoSign">
+        UPDATE t_auto_sign
+        <set>
+            <if test="token != null">token = #{token},</if>
+            <if test="lxdh != null">lxdh = #{lxdh},</if>
+            <if test="yhm != null">yhm = #{yhm}</if>
+            <if test="jjlxr != null">jjlxr = #{jjlxr},</if>
+            <if test="jjlxdh != null">jjlxdh = #{jjlxdh},</if>
+        </set>
+    </update>
+
+    <update id="updateLaunchStatus">
+        update t_auto_sign
+        set active = #{active}
+        where qq = #{qq}
+    </update>
+
+    <select id="getUser" resultType="AutoSign">
+        select * from t_auto_sign where qq = #{qq}
+    </select>
+
+    <select id="getUnSignedUser" resultType="AutoSign">
+        select ta.*, tu.group_code from t_auto_sign as ta
+        join t_user tu on ta.qq = tu.qq
+        where tu.last_sign != CURDATE()
+        limit 10
+    </select>
+
+</mapper>

@@ -37,7 +37,7 @@ public class StatisticGroupServiceImpl implements StatisticGroupService {
             statisticGroupMapper.addStatistic(statisticGroup);
             return statisticGroup.getId();
         }
-        throw new NoRepeatableException("已经有激活的统计了!id为: " + activeStatistic.getId());
+        throw new NoRepeatableException("已经有激活的统计了! id为: " + activeStatistic.getId());
     }
 
     @Override

@@ -56,7 +56,7 @@ public class StatisticsListener {
         }
         try {
             int id = statisticGroupService.launchStatistic(groupMsg.getGroupInfo().getGroupCode(), name);
-            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "创建成功, 该统计id为: " + id);
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "创建成功, 该收集的id为: " + id);
         } catch (NoRepeatableException e) {
             sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + e.getMessage());
         }
@@ -73,9 +73,9 @@ public class StatisticsListener {
         }
         try {
             statisticGroupService.stopStatistic(id, groupMsg.getGroupInfo().getGroupCode());
-            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "成功停止统计id为" + id + "的统计");
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "成功停止id为" + id + "的收集");
         } catch (UnNecessaryInvokeException e) {
-            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "无法找到该id或者该统计已经是停止状态");
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "无法找到该id或者该收集已经是停止状态");
         }
     }
 
@@ -122,7 +122,7 @@ public class StatisticsListener {
             statisticService.submitContent(msg, groupMsg.getAccountInfo().getAccountCode(), groupMsg.getGroupInfo().getGroupCode());
             sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "提交成功!");
         } catch (UnNecessaryInvokeException e) {
-            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "当前没有激活的统计!");
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "当前没有激活的收集!");
         } catch (NoRepeatableException e) {
             sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "不允许重复提交!");
         }
@@ -139,7 +139,7 @@ public class StatisticsListener {
                 builder.append("*");
             }
             builder
-                    .append("统计名称: ")
+                    .append("收集名称: ")
                     .append(statisticGroup.getName())
                     .append(" ; id: ")
                     .append(statisticGroup.getId());
@@ -149,7 +149,7 @@ public class StatisticsListener {
             }
             builder.append("\n");
         }
-        builder.append("注: 左右带*号的代表当前正在收集的统计");
+        builder.append("注: 左右带*号的代表当前激活的收集");
         // 删除多余换行
         builder.deleteCharAt(builder.length() - 1);
         sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) +  builder);
@@ -176,7 +176,7 @@ public class StatisticsListener {
             builder.deleteCharAt(builder.length() - 1);
             sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + builder);
         } catch (NoTargetValueException e) {
-            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "没有找到该统计!");
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "没有找到该收集!");
         }
     }
 

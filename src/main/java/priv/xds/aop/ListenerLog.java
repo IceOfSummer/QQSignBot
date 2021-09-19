@@ -2,6 +2,7 @@ package priv.xds.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import love.forte.simbot.api.message.events.GroupMsg;
+import love.forte.simbot.api.message.events.PrivateMsg;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,16 +19,21 @@ import priv.xds.util.MessageUtil;
 @Slf4j
 public class ListenerLog {
 
-    @After("execution(* priv.xds.listener.*.*(..)) && @annotation(love.forte.simbot.annotation.OnGroup)")
+    @After("execution(* priv.xds.listener.*.*(..)) && (@annotation(love.forte.simbot.annotation.OnGroup) || @annotation(love.forte.simbot.annotation.OnPrivate))")
     public void after(JoinPoint joinPoint) {
         GroupMsg groupMsg = null;
+        PrivateMsg privateMsg = null;
         for (Object arg : joinPoint.getArgs()) {
             if (arg instanceof GroupMsg) {
                 groupMsg = (GroupMsg) arg;
+            } else if (arg instanceof PrivateMsg) {
+                privateMsg = (PrivateMsg) arg;
             }
         }
         if (groupMsg != null) {
             log.info("群" + MessageUtil.combineGroupIdAndName(groupMsg) + " 用户"+ MessageUtil.combineQqAndNickname(groupMsg) + "调用了: " + joinPoint.getSignature().getName() + "方法");
+        } else if (privateMsg != null) {
+            log.info("用户: " + MessageUtil.combineGroupIdAndName(privateMsg) + "调用了: " + joinPoint.getSignature().getName() + "方法" );
         } else {
             log.info(joinPoint.getSignature().getName() + "被调用了");
         }

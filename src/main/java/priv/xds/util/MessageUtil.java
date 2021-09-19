@@ -2,6 +2,7 @@ package priv.xds.util;
 
 import love.forte.simbot.api.message.containers.GroupAccountInfo;
 import love.forte.simbot.api.message.events.GroupMsg;
+import love.forte.simbot.api.message.events.PrivateMsg;
 
 /**
  * @author HuPeng
@@ -57,6 +58,10 @@ public class MessageUtil {
      */
     public static String combineGroupIdAndName(GroupMsg msg) {
         return msg.getGroupInfo().getGroupCode() + "(" + msg.getGroupInfo().getGroupName() + ")";
+    }
+
+    public static String combineGroupIdAndName(PrivateMsg privateMsg) {
+        return privateMsg.getAccountInfo().getAccountCode() + "(" + privateMsg.getAccountInfo().getAccountRemark() + ")";
     }
 
 
