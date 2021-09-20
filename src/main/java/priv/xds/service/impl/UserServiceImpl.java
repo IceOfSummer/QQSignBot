@@ -1,7 +1,6 @@
 package priv.xds.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import love.forte.simbot.api.message.results.GroupMemberInfo;
 import love.forte.simbot.api.message.results.GroupMemberList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,8 +36,6 @@ public class UserServiceImpl implements UserService {
     public void sign(String qq, String groupCode) throws UnNecessaryInvokeException, NoRepeatableException {
         User user = userMapper.queryUser(qq, groupCode);
         if (user == null) {
-//            throw new NoTargetValueException("没有找到指定用户");
-            // 没找到用户，先注册
             User newUser = new User();
             newUser.setQq(qq);
             newUser.setLastSign(new Date());
@@ -57,6 +54,7 @@ public class UserServiceImpl implements UserService {
         if (l == 0) {
             throw new NoRepeatableException("不能重复签到");
         }
+        userMapper.sign(qq, groupCode);
     }
 
     @Override

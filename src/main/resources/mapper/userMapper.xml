@@ -3,28 +3,28 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="priv.xds.mapper.UserMapper">
-    
+
+    <update id="sign">
+        update t_user set last_sign = CURDATE()
+        where qq = #{qq}
+        <if test="groupCode != null">and group_code = #{groupCode}</if>
+    </update>
+
     <select id="queryUser" resultType="User">
         SELECT * FROM t_user WHERE qq = #{qq} AND group_code = #{groupCode}
     </select>
 
-    <update id="updateSignDays">
-        UPDATE t_user
-        SET consecutive_sign_days = #{signDays},
-            last_sign = curdate()
-        WHERE qq = #{qq} AND group_code = #{groupCode}
-    </update>
 
     <insert id="addUser" parameterType="User">
-        insert into t_user(qq, last_sign, consecutive_sign_days, group_code)
-        VALUES (#{qq}, #{lastSign}, #{consecutiveSignDays}, #{groupCode})
+        insert into t_user(qq, last_sign, group_code)
+        VALUES (#{qq}, #{lastSign},  #{groupCode})
     </insert>
 
     <insert id="addUsers" parameterType="User">
-        insert into t_user(qq, last_sign, consecutive_sign_days, group_code)
+        insert into t_user(qq, last_sign , group_code)
         VALUE
         <foreach collection="users" item="item" separator=",">
-            (#{item.qq}, #{item.lastSign}, #{item.consecutiveSignDays}, #{item.groupCode})
+            (#{item.qq}, #{item.lastSign},  #{item.groupCode})
         </foreach>
     </insert>
 
@@ -55,5 +55,7 @@
         UPDATE t_user SET sign_ignore = false
         WHERE sign_ignore = true AND qq = #{qq} AND group_code = #{groupCode}
     </update>
-    
+
+
+
 </mapper>

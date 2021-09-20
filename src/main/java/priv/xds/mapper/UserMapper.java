@@ -2,6 +2,7 @@ package priv.xds.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.lang.Nullable;
 import priv.xds.pojo.User;
 import java.util.List;
 
@@ -13,6 +14,14 @@ import java.util.List;
 public interface UserMapper {
 
     /**
+     * 打卡
+     * @param qq qq号
+     * @param groupCode 群号
+     */
+    void sign(@Param("qq") String qq,@Nullable @Param("groupCode") String groupCode);
+
+
+    /**
      * 查询用户
      * @param qq 用户qq号
      * @param groupCode qq群
@@ -20,15 +29,6 @@ public interface UserMapper {
      */
     User queryUser(@Param("qq") String qq, @Param("groupCode") String groupCode);
 
-    /**
-     * 更新签到天数
-     * @param qq 要修改的qq
-     * @param signDays 连续签到天数
-     * @param groupCode 群号
-     */
-    void updateSignDays(@Param("qq") String qq,
-                        @Param("signDays") int signDays,
-                        @Param("groupCode") String groupCode);
 
     /**
      * 添加一个用户
