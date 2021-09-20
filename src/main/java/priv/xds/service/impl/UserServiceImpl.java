@@ -106,4 +106,9 @@ public class UserServiceImpl implements UserService {
         userMapper.addUsers(unRegisteredUsers);
         return unRegisteredUsers.size();
     }
+
+    @Override
+    public void deleteUser(String qq, String groupCode) {
+        userMapper.deleteUser(qq, groupCode);
+    }
 }

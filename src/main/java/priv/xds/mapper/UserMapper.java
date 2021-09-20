@@ -78,4 +78,11 @@ public interface UserMapper {
      */
     int reStatisticsUser(@Param("qq") String qq, @Param("groupCode") String groupCode);
 
+    /**
+     * 删除某个用户
+     * @param qq qq号
+     * @param groupCode 群号
+     */
+    void deleteUser(@Param("qq") String qq, @Param("groupCode") String groupCode);
+
 }

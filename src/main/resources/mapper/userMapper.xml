@@ -56,6 +56,9 @@
         WHERE sign_ignore = true AND qq = #{qq} AND group_code = #{groupCode}
     </update>
 
+    <delete id="deleteUser">
+        DELETE t_user FROM t_user WHERE qq = #{qq} AND group_code = #{groupCode}
+    </delete>
 
 
 </mapper>

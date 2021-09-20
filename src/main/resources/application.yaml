@@ -55,7 +55,7 @@ bot:
       # 7:00 - 8:00
       [
           "早上好啊,已经帮你记录打卡了!",
-          "打卡成功早八人[CAT:image,file=classpath:images/doge.jpg.jpg]",
+          "打卡成功早八人[CAT:image,file=classpath:images/doge.jpg]",
           "[CAT:image,file=classpath:images/goodMorning.jpeg]\n(打卡成功)",
           "[CAT:image,file=classpath:images/goodMorning2.gif]\n(打卡成功)",
           "[CAT:image,file=classpath:images/morning.jpg]\n(打卡成功)"
