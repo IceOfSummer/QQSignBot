@@ -59,8 +59,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void sign(String qq) {
-        userMapper.sign(qq);
+    public int sign(String qq) {
+        return userMapper.sign(qq, null);
     }
 
     @Override

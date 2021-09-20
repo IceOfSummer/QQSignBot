@@ -23,7 +23,7 @@
     <update id="updateLaunchStatus">
         update t_auto_sign
         set active = #{active}
-        where qq = #{qq}
+        where qq = #{qq} and active != #{active}
     </update>
 
     <select id="getUser" resultType="AutoSign">
@@ -33,7 +33,7 @@
     <select id="getUnSignedUser" resultType="AutoSign">
         select ta.*, tu.group_code from t_auto_sign as ta
         join t_user tu on ta.qq = tu.qq
-        where tu.last_sign != CURDATE()
+        where tu.last_sign != CURDATE() and active = true
         limit 10
     </select>
 

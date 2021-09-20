@@ -26,8 +26,9 @@ public interface UserService {
     /**
      * 对指定的qq,让其在所有群都完成打卡签到
      * @param qq qq号
+     * @return 返回1表示成功, 0表示失败
      */
-    void sign(String qq);
+    int sign(String qq);
 
     /**
      * 获取没有打卡的用户

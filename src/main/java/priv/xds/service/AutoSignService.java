@@ -5,6 +5,7 @@ import priv.xds.exception.NoTargetValueException;
 import priv.xds.exception.UnNecessaryInvokeException;
 import priv.xds.pojo.AutoSign;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -46,9 +47,11 @@ public interface AutoSignService {
     /**
      * 自动打卡注册服务
      * @param autoSign 用户信息
+     * @throws FailToExecuteException 发送打卡请求失败,如token过期等情况
+     * @throws IOException io异常,表示请求执行失败
      * @return 返回结果执行信息
      */
-    String sign(AutoSign autoSign);
+    String sign(AutoSign autoSign) throws FailToExecuteException, IOException;
 
     /**
      * 获取没有打卡的用户

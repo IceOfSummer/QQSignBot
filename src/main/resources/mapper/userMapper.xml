@@ -6,10 +6,10 @@
 
     <update id="sign">
         update t_user set last_sign = CURDATE()
-        where qq = #{qq} and
-        <if test="groupCode != null">group_code = #{groupCode}</if>
+        where qq = #{qq}
+        <if test="groupCode != null">and group_code = #{groupCode}</if>
     </update>
-    
+
     <select id="queryUser" resultType="User">
         SELECT * FROM t_user WHERE qq = #{qq} AND group_code = #{groupCode}
     </select>
@@ -57,5 +57,4 @@
     </update>
 
 
-    
 </mapper>

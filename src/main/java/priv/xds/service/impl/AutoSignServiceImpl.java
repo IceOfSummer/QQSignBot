@@ -81,25 +81,21 @@ public class AutoSignServiceImpl implements AutoSignService {
     }
 
     @Override
-    public String sign(AutoSign autoSign) {
-        try {
-            SignHelper.Resp send = new SignHelper(autoSign).send();
-            String successCode = "0x00000000";
-            if (successCode.equals(send.getErrorCode())) {
-                // success
-                userService.sign(autoSign.getQq());
-               return "已经帮你自动打卡了!";
-            }
-            // fail
-            return send.getMessage();
-        } catch (IOException e) {
-            return "打卡失败" + e;
+    public String sign(AutoSign autoSign) throws IOException, FailToExecuteException{
+        SignHelper.Resp send = new SignHelper(autoSign).send();
+        String successCode = "0x00000000";
+        if (successCode.equals(send.getErrorCode())) {
+            // success
+            userService.sign(autoSign.getQq());
+            return "已经帮你自动打卡了!";
+        } else {
+            throw new FailToExecuteException("自动打卡失败: " + send.getMessage());
         }
     }
 
     @Override
     public List<AutoSign> getUnSignedUser() {
-        return autoSignMapper.getUnSignedUser().stream().distinct().collect(Collectors.toList());
+        return autoSignMapper.getUnSignedUser();
     }
 
     @Override

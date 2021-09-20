@@ -2,6 +2,7 @@ package priv.xds.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.lang.Nullable;
 import priv.xds.pojo.User;
 import java.util.List;
 
@@ -16,14 +17,11 @@ public interface UserMapper {
      * 打卡
      * @param qq qq号
      * @param groupCode 群号
+     * @return 返回1表示成功 0表示失败
      */
-    void sign(@Param("qq") String qq, @Param("groupCode") String groupCode);
+    int sign(@Param("qq") String qq, @Nullable @Param("groupCode") String groupCode);
 
-    /**
-     * 为指定的QQ在所有群进行打卡
-     * @param qq qq号
-     */
-    void sign(@Param("qq") String qq);
+
 
     /**
      * 查询用户

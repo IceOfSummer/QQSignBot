@@ -74,7 +74,7 @@ public class AutoSignListener {
                 "\n若检查无误后,输出'开启自动打卡'即可自动为你打卡" +
                 "\n若输入有误,重新执行该指令即可" +
                 "\n在开启自动打卡之前希望你已经充分阅读过泄露Token的后果" +
-                "\n链接: ");
+                "\n链接: https://github.com/HuPeng333/QQSignBot/tree/personal");
     }
 
     @OnPrivate
