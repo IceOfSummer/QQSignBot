@@ -22,7 +22,6 @@ public interface UserMapper {
     int sign(@Param("qq") String qq, @Nullable @Param("groupCode") String groupCode);
 
 
-
     /**
      * 查询用户
      * @param qq 用户qq号
@@ -79,5 +78,14 @@ public interface UserMapper {
      * @return 返回1表示成功, 0表示不需要修改
      */
     int reStatisticsUser(@Param("qq") String qq, @Param("groupCode") String groupCode);
+
+
+    /**
+     * 删除某个用户
+     * @param qq qq号
+     * @param groupCode 群号
+     */
+    void deleteUser(@Param("qq") String qq, @Param("groupCode") String groupCode);
+
 
 }

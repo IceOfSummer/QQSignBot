@@ -5,7 +5,6 @@ import org.springframework.lang.Nullable;
 import priv.xds.exception.NoRepeatableException;
 import priv.xds.exception.UnNecessaryInvokeException;
 import priv.xds.pojo.User;
-
 import java.util.List;
 
 /**
@@ -66,7 +65,16 @@ public interface UserService {
      * 重新添加群组的人员
      * @param groupCode 群号
      * @param groupMemberList 群内的人员
+     * @throws UnNecessaryInvokeException 已经全部添加了
      * @return 添加了多少人
      */
     int initGroup(String groupCode, GroupMemberList groupMemberList) throws UnNecessaryInvokeException;
+
+    /**
+     * 删除某个用户
+     * @param qq qq号
+     * @param groupCode 群号
+     */
+    void deleteUser(String qq, String groupCode);
+
 }

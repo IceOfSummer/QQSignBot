@@ -10,7 +10,7 @@
     </parent>
     <groupId>priv.xds</groupId>
     <artifactId>QQBot</artifactId>
-    <version>0.2.4/PERSONAL</version>
+    <version>0.2.4-PERSONAL</version>
     <name>QQBot</name>
     <description>QQBot</description>
     <properties>

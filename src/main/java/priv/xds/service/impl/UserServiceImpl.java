@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
     public void sign(String qq, String groupCode) throws UnNecessaryInvokeException, NoRepeatableException {
         User user = userMapper.queryUser(qq, groupCode);
         if (user == null) {
-            // 没找到用户，先注册
             User newUser = new User();
             newUser.setQq(qq);
             newUser.setLastSign(new Date());
@@ -111,5 +110,10 @@ public class UserServiceImpl implements UserService {
         }
         userMapper.addUsers(unRegisteredUsers);
         return unRegisteredUsers.size();
+    }
+
+    @Override
+    public void deleteUser(String qq, String groupCode) {
+        userMapper.deleteUser(qq, groupCode);
     }
 }

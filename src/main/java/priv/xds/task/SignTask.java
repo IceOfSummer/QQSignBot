@@ -44,6 +44,7 @@ public class SignTask {
     @Scheduled(cron = "0 0 10,11,12 * * ?")
     public void tipSign() {
         log.info("开始提醒未打卡的人");
+        BotSender sender = botManager.getDefaultBot().getSender();
         List<User> allUnsignedUser = userMapper.getAllUnsignedUser();
         for (SimpleGroupInfo simpleGroupInfo : botManager.getDefaultBot().getSender().GETTER.getGroupList().stream().collect(Collectors.toList())) {
             String groupCode = simpleGroupInfo.getGroupCode();
@@ -51,23 +52,24 @@ public class SignTask {
             int size = collect.size();
             log.info("群: " + groupCode + "有" + size + "个人没有打卡");
             if (size == 0) {
-                botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(groupCode, "好耶!今天所有人都打卡了" + MessageUtil.sendImageByFile("classpath:images/happy.jpg"));
+                sender.SENDER.sendGroupMsg(groupCode, "好耶!今天所有人都打卡了" + MessageUtil.sendImageByFile("classpath:images/happy.jpg"));
                 return;
             }
             StringBuilder builder = new StringBuilder(size * 20);
+
             for (User user : collect) {
                 builder.append(MessageUtil.atSomeone(user.getQq()))
                         .append(" ");
             }
             builder.append("记得打卡!!").append(MessageUtil.sendImageByFile("classpath:images/cuteCat2.gif"));
-            botManager.getDefaultBot().getSender().SENDER.sendGroupMsg(groupCode, builder.toString());
+            sender.SENDER.sendGroupMsg(groupCode, builder.toString());
         }
         log.info("提醒完毕");
 
     }
 
     /**
-     * 清除打卡缓存
+     * 提醒打卡
      */
     @Scheduled(cron = "10 0 0 * * ?")
     public void clearRank() {
