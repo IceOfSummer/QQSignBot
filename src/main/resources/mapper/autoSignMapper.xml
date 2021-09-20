@@ -31,9 +31,10 @@
     </select>
 
     <select id="getUnSignedUser" resultType="AutoSign">
-        select ta.*, tu.group_code from t_auto_sign as ta
+        select ta.*, tu.group_code  from t_auto_sign as ta
         join t_user tu on ta.qq = tu.qq
         where tu.last_sign != CURDATE() and active = true
+        group by ta.qq
         limit 10
     </select>
 
