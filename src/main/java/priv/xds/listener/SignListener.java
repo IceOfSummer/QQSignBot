@@ -17,7 +17,6 @@ import priv.xds.pojo.User;
 import priv.xds.service.UserService;
 import priv.xds.util.GroupUtil;
 import priv.xds.util.MessageUtil;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -44,7 +43,7 @@ public class SignListener {
 
 
     @OnGroup
-    @Filter(value = "打卡")
+    @Filter(value = "打卡", trim = true, matchType = MatchType.EQUALS)
     public void sign(GroupMsg groupMsg,
                      MsgSender sender) {
         GroupAccountInfo accountInfo = groupMsg.getAccountInfo();

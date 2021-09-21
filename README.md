@@ -30,8 +30,6 @@
 
 - 注册群组: 管理员或群主发送后，让机器人主动扫描没有在数据库的群成员，并将TA添加到数据库
 
-  *添加的前提是该用户在线!!!这个问题我也解决不了,如果有群成员是隐身状态,建议使用代打卡为TA手动注册!*
-
 ## 启动步骤
 
 ### 1. 克隆本项目
@@ -39,7 +37,8 @@
 ### 2. 进入目录后安装
 
 ```text
-maven clean package
+mvn clean package -Dmaven.test.skip=true
+建议跳过测试,不然会将机器人连着一起启动
 ```
 
 ### 3.配置
@@ -52,7 +51,7 @@ maven clean package
 
 - device.json
 
-  在github上看不到我放了这个文件，但其实是必须要有的，不然你的机器人QQ是登录不上的!
+  这个文件就相当于是你的验证信息,如果你不使用它的话,登录时可能会要求你输入验证码,所以只能使用该文件来验证,不然你的机器人QQ是登录不上的!
 
 
 
@@ -76,8 +75,6 @@ spring:
   datasource:
     username: "root"
     password: "abc123"
-  profiles:
-    active: pro
 
 simbot:
   core:
@@ -95,3 +92,24 @@ weather:
   }
 ```
 
+# 其它须知
+## 关于QQ冻结问题
+你可能已经察觉到了,在生产或者开发模式下的配置文件中有如下配置
+```yaml
+simbot:
+  component:
+    mirai:
+      protocol: ANDROID_PAD
+```
+该配置就是机器人启动的协议,这里是使用ipad登录
+
+如果你想拓展本代码,或者使用本代码底层的simbot来编写一个机器人,请注意如下几点
+
+- 该协议默认为ANDROID_PHONE, 也就是说你使用了该协议, 然后你用手机QQ登录了机器人, 是会把机器人挤下来的! 同样的, 机器人也会把你挤下来
+- 你可以同时启动多个**不同协议**的机器人, 但是不要启动**多个重复协议**的机器人, 因为该操作很大可能会造成QQ冻结或封号!
+
+另附: [Simpler-robot Docs](https://www.yuque.com/simpler-robot/simpler-robot-doc/wyt74o)
+## personal分支
+该分支的代码, 怎么说呢, 就相当于是一份我对我自己学校的**定制化**代码, 
+不具备通用性. 可以理解为我在里面添加了你可能用不了的功能,
+正常情况下使用master分支就可以了, personal分支是不会release的
