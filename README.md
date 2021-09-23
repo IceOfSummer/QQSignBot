@@ -2,7 +2,7 @@
 
 ## 分支说明
 
-此页面仅显示master分支没有的内容，master分支有的内容这个分支
+此页面仅显示master分支没有的内容，master分支有的内容这个分支都有
 
 为什么要开这个分支?
 
@@ -20,12 +20,19 @@
 
 ​	由于学校打卡系统使用了企业微信，虽然企业微信的防范措施做的很好，但是奈何学校的打卡系统拖后腿，因此，要想自动打卡，必须获取你的**Token**! 经过验证，该Token从生成至少有3天的有效期(目测有效期为7天，本来应该是几小时就过期的东西被学校整成了三天都没过期就离谱)
 
+## 启动步骤
 
 ​	暴露了你的Token有什么坏处?
 
 > ​        如果你是我们学校的人，你将Token给我，**我是可以获取你的付款码等功能的**! Token就相当于钥匙，你把你家钥匙给我了，我就可以偷偷去你家干任何事! (**亲测无法打开学校的付款码界面!!! **两者使用的是不一样的验证方式)
 
+
 ​	如果我的Token暴露给了别人，我有办法补救吗?
+
+```text
+mvn clean package -D maven.test.skip=true
+建议跳过测试,不然会将机器人连着一起启动
+```
 
 > Token全称 Json Web Token(JWT)，是一串**无状态**的字符串，一旦服务器分发给用户，除非到达设定的时间，无法让其失效！因此你的Token一旦暴露，建议迅速修改密码，因为Token中一般附带了密码信息(**但是原Token没有失效**！只是里面的信息不正确，可能会被服务器拒绝)。在一般情况下Token有效期一般很短，基本只有几个小时！
 
@@ -44,6 +51,9 @@
 
 关于如何获取token，详见下方[获取token](#获取token)
 
+  这个文件就相当于是你的验证信息,如果你不使用它的话,登录时可能会要求你输入验证码,所以只能使用该文件来验证,不然你的机器人QQ是登录不上的!
+
+
 # 其它说明
 
 ## 获取token
@@ -59,3 +69,51 @@
 点击右上角三个点 -> 搜索'authorization'(不要带引号) -> 随便进入一个企业微信的请求 -> 点击中间的请求 -> 在里面可以找到一个 authorization: xxxxxx，将后面的值复制，提交给机器人(这个东西本质就是Token)
 
 在提交给机器人前，希望你已经充分了解暴露你Token的后果
+
+
+**application.yaml样例**
+
+```yaml
+spring:
+  # 数据库连接的用户名和密码
+  datasource:
+    username: "root"
+    password: "abc123"
+
+simbot:
+  core:
+    # bot的用户名和密码
+    bots: 123:password
+    
+# 天气api,详见: http://tianqiapi.com/index/doc?version=v6
+weather:
+  url: https://tianqiapi.com/api
+  params: {
+    appid: 123456,
+    appsecret: secretKey,
+    version: v6,
+    cityid: 101200101
+  }
+```
+
+# 其它须知
+## 关于QQ冻结问题
+你可能已经察觉到了,在生产或者开发模式下的配置文件中有如下配置
+```yaml
+simbot:
+  component:
+    mirai:
+      protocol: ANDROID_PAD
+```
+该配置就是机器人启动的协议,这里是使用ipad登录
+
+如果你想拓展本代码,或者使用本代码底层的simbot来编写一个机器人,请注意如下几点
+
+- 该协议默认为ANDROID_PHONE, 也就是说你使用了该协议, 然后你用手机QQ登录了机器人, 是会把机器人挤下来的! 同样的, 机器人也会把你挤下来
+- 你可以同时启动多个**不同协议**的机器人, 但是不要启动**多个重复协议**的机器人, 因为该操作很大可能会造成QQ冻结或封号!
+
+另附: [Simpler-robot Docs](https://www.yuque.com/simpler-robot/simpler-robot-doc/wyt74o)
+## personal分支
+该分支的代码, 怎么说呢, 就相当于是一份我对我自己学校的**定制化**代码, 
+不具备通用性. 可以理解为我在里面添加了你可能用不了的功能,
+正常情况下使用master分支就可以了, personal分支是不会release的

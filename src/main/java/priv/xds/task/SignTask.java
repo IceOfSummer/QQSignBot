@@ -47,22 +47,26 @@ public class SignTask {
         BotSender sender = botManager.getDefaultBot().getSender();
         List<User> allUnsignedUser = userMapper.getAllUnsignedUser();
         for (SimpleGroupInfo simpleGroupInfo : botManager.getDefaultBot().getSender().GETTER.getGroupList().stream().collect(Collectors.toList())) {
-            String groupCode = simpleGroupInfo.getGroupCode();
-            List<User> collect = allUnsignedUser.stream().filter(user -> user.getGroupCode().equals(groupCode)).collect(Collectors.toList());
-            int size = collect.size();
-            log.info("群: " + groupCode + "有" + size + "个人没有打卡");
-            if (size == 0) {
-                sender.SENDER.sendGroupMsg(groupCode, "好耶!今天所有人都打卡了" + MessageUtil.sendImageByFile("classpath:images/happy.jpg"));
-                return;
-            }
-            StringBuilder builder = new StringBuilder(size * 20);
+            try {
+                String groupCode = simpleGroupInfo.getGroupCode();
+                List<User> collect = allUnsignedUser.stream().filter(user -> user.getGroupCode().equals(groupCode)).collect(Collectors.toList());
+                int size = collect.size();
+                log.info("群: " + groupCode + "有" + size + "个人没有打卡");
+                if (size == 0) {
+                    sender.SENDER.sendGroupMsg(groupCode, "好耶!今天所有人都打卡了" + MessageUtil.sendImageByFile("classpath:images/happy.jpg"));
+                    continue;
+                }
+                StringBuilder builder = new StringBuilder(size * 20);
 
-            for (User user : collect) {
-                builder.append(MessageUtil.atSomeone(user.getQq()))
-                        .append(" ");
+                for (User user : collect) {
+                    builder.append(MessageUtil.atSomeone(user.getQq()))
+                            .append(" ");
+                }
+                builder.append("记得打卡!!").append(MessageUtil.sendImageByFile("classpath:images/cuteCat2.gif"));
+                sender.SENDER.sendGroupMsg(groupCode, builder.toString());
+            } catch (IllegalStateException ignored) {
+                // 因为机器人好友或者QQ群列表是以缓存的形式保存的,所以有可能得到的群不存在了
             }
-            builder.append("记得打卡!!").append(MessageUtil.sendImageByFile("classpath:images/cuteCat2.gif"));
-            sender.SENDER.sendGroupMsg(groupCode, builder.toString());
         }
         log.info("提醒完毕");
 
@@ -76,7 +80,9 @@ public class SignTask {
         log.info("重置所有群组的打卡");
         BotSender bot = botManager.getDefaultBot().getSender();
         for (SimpleGroupInfo simpleGroupInfo : bot.GETTER.getGroupList().stream().collect(Collectors.toList())) {
-            bot.SENDER.sendGroupMsg(simpleGroupInfo.getGroupCode(), "[CAT:at,all=true]打卡开始了!");
+            try {
+                bot.SENDER.sendGroupMsg(simpleGroupInfo.getGroupCode(), "[CAT:at,all=true]打卡开始了!");
+            } catch (IllegalStateException ignored) {}
         }
     }
 }

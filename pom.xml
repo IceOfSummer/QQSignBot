@@ -10,7 +10,7 @@
     </parent>
     <groupId>priv.xds</groupId>
     <artifactId>QQBot</artifactId>
-    <version>0.2.4-PERSONAL</version>
+    <version>0.3.0-PERSONAL</version>
     <name>QQBot</name>
     <description>QQBot</description>
     <properties>
@@ -71,7 +71,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.2.6</version>
+            <version>1.2.5</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
