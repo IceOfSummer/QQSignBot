@@ -36,13 +36,14 @@ public class ChatListener {
             "- 获取收集结果 *收集id* : 获取某一个收集的收集结果\n" +
             "- 提交收集 *任意内容* : 群内成员根据情况，提交相关内容到激活的收集中，内容可以是任意的，可以带有空格，但最长为100个字符\n" +
             "- 查看收集表: 查看群内所有开启过的收集表，被激活的收集会被标注\n" +
-            "- 查看收集未提交 *收集id* : 查看群内所有没有提交收集的人";
+            "- 查看收集未提交 *收集id* : 查看群内所有没有提交收集的人\n" +
+            "更多帮助请查看: https://github.com/HuPeng333/QQSignBot";
 
     @OnGroup
     @Priority(PriorityConstant.LAST)
     @Filter(value = "^\\s*", atBot = true, matchType = MatchType.REGEX_MATCHES)
     public void replyAt(GroupMsg groupMsg, MsgSender sender) {
-        sender.SENDER.sendGroupMsg(groupMsg, "at我发送'帮助'获取更多支持!\ngithub地址:https://github.com/HuPeng333/QQBot\n当前版本: " + version);
+        sender.SENDER.sendGroupMsg(groupMsg, "at我发送'帮助'获取更多支持!\ngithub地址:https://github.com/HuPeng333/QQSignBot\n当前版本: " + version);
     }
 
     @OnGroup
