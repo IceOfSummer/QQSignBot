@@ -3,7 +3,8 @@ target/
 .mvn/*
 !**/src/main/**/target/
 !**/src/test/**/target/
-/config/*
+/config/application.yaml
+/config/device.json
 /logs/*
 /cache/*
 

@@ -1,6 +1,7 @@
 package priv.xds.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  */
 @ConfigurationProperties(prefix = "bot.reply")
 @Component
+@PropertySource(value = "file:${user.dir}/config/botReply.yaml", factory = YamlSourceFactory.class)
 public class BotReplyProperties {
 
     /**

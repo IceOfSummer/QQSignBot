@@ -38,12 +38,11 @@ public class AutoSignTask {
 
     @Scheduled(cron = "0 20,40 1,2,3,4,5,6,11,12,13 * * ?")
     public void autoSign() {
-        log.info("开始自动帮助打卡");
         if (isAllDone) {
-            log.info("自动打卡任务已经完成!");
             // 没有要帮助的了
             return;
         }
+        log.info("开始自动帮助打卡");
         Sender sender = botManager.getDefaultBot().getSender().SENDER;
         List<AutoSign> unSignedUser = autoSignService.getUnSignedUser();
         if (unSignedUser.isEmpty()) {

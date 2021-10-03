@@ -5,6 +5,7 @@ import love.forte.simbot.api.message.results.SimpleGroupInfo;
 import love.forte.simbot.api.sender.BotSender;
 import love.forte.simbot.bot.BotManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import priv.xds.function.WeatherForecaster;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
  */
 @Component
 @Slf4j
+@ConditionalOnBean(WeatherForecaster.class)
 public class WeatherTask {
 
     private WeatherForecaster weatherForecaster;

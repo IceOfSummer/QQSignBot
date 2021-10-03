@@ -23,4 +23,9 @@ public class WeatherForecasterProperties {
      */
     private Map<String, String> params;
 
+    /**
+     * 是否开启
+     */
+    private boolean enabled = true;
+
 }
