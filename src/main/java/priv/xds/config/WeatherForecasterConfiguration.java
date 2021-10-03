@@ -1,9 +1,11 @@
 package priv.xds.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import priv.xds.function.WeatherForecaster;
 
 import java.util.Map;
@@ -14,6 +16,8 @@ import java.util.Map;
  */
 @Configuration
 @EnableConfigurationProperties(WeatherForecasterProperties.class)
+@PropertySource(value = "file:${user.dir}/config/botReply.yaml")
+@ConditionalOnProperty(prefix = "weather", name = "enabled", havingValue = "true")
 public class WeatherForecasterConfiguration {
 
     private WeatherForecasterProperties weatherProperties;

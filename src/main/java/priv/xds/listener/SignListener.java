@@ -85,11 +85,12 @@ public class SignListener {
     public void ignoreSomeone(GroupMsg groupMsg, MsgSender sender) {
         String groupCode = groupMsg.getGroupInfo().getGroupCode();
         String qq = splitQq(groupMsg);
-        String accountNickname = null;
+        String accountNickname;
         try {
             accountNickname = sender.GETTER.getMemberInfo(groupCode, qq).getAccountNickname();
         } catch (NoSuchElementException e) {
             GroupUtil.sendNotFoundUser(groupMsg, sender);
+            return;
         }
         try {
             userService.ignoreUser(qq, groupCode);

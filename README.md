@@ -30,6 +30,8 @@
 
 - 注册群组: 管理员或群主发送后，让机器人主动扫描没有在数据库的群成员，并将TA添加到数据库
 
+**该操作相当于初始化，一定要执行！！**
+
 ## 启动步骤
 
 ### 1. 克隆本项目
@@ -37,7 +39,7 @@
 ### 2. 进入目录后安装
 
 ```text
-mvn clean package -Dmaven.test.skip=true
+mvn clean package -D maven.test.skip=true
 建议跳过测试,不然会将机器人连着一起启动
 ```
 
@@ -90,6 +92,8 @@ weather:
     version: v6,
     cityid: 101200101
   }
+  # 或者你可以直接关闭天气提醒功能(0.3.0的RELEASE中没有该功能,请拉取最新分支使用)
+  enabled: false
 ```
 
 # 其它须知
