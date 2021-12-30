@@ -14,24 +14,17 @@ bot:
       # 0:30 - 5:00
       [
           "打卡成功[CAT:image,file=classpath:images/sleep01.jpg]",
-          "还在熬夜吗?已经打卡了,早点睡吧!",
-          "打卡成功,早点去睡吧",
           "打卡成功[CAT:image,file=classpath:images/signMidnight.jpeg]",
           "打卡成功[CAT:image,file=classpath:images/signMidnight2.jpeg]",
           "打卡成功[CAT:image,file=classpath:images/signMidnight3.jpg]",
           "打卡成功[CAT:image,file=classpath:images/signMidnight4.jpg]",
-          "打卡成功!我去睡觉了,不等你了哦?"
       ],
       # 5:00 - 7:00
       [
-          "起来这么早,是今天有什么要事吗?\n(打卡成功)",
-          "起来这么早,辛苦了\n(打卡成功)",
-          "大佬起床真早!\n(打卡成功)"
+          "早上好!打卡成功",
       ],
       # 7:00 - 8:00
       [
-          "早上好啊,已经帮你记录打卡了!",
-          "打卡成功早八人[CAT:image,file=classpath:images/doge.jpg]",
           "[CAT:image,file=classpath:images/goodMorning.jpeg]\n(打卡成功)",
           "[CAT:image,file=classpath:images/goodMorning2.gif]\n(打卡成功)",
           "[CAT:image,file=classpath:images/morning.jpg]\n(打卡成功)"
@@ -48,7 +41,7 @@ bot:
       ],
       # 12:00 - 13:00
       [
-          "都已经过中午了!我不管了![CAT:image,file=classpath:images/dog.jpg]"
+          "怎么现在才打卡![CAT:image,file=classpath:images/signAfterNoon.jpg]"
       ],
       # 13:00 - 23:59
       [

@@ -10,17 +10,17 @@
         <if test="groupCode != null">and group_code = #{groupCode}</if>
     </update>
 
-    <select id="queryUser" resultType="User">
+    <select id="queryUser" resultType="priv.xds.pojo.User">
         SELECT * FROM t_user WHERE qq = #{qq} AND group_code = #{groupCode}
     </select>
 
 
-    <insert id="addUser" parameterType="User">
+    <insert id="addUser" parameterType="priv.xds.pojo.User">
         insert into t_user(qq, last_sign, group_code)
         VALUES (#{qq}, #{lastSign},  #{groupCode})
     </insert>
 
-    <insert id="addUsers" parameterType="User">
+    <insert id="addUsers" parameterType="priv.xds.pojo.User">
         insert into t_user(qq, last_sign , group_code)
         VALUE
         <foreach collection="users" item="item" separator=",">
@@ -28,19 +28,19 @@
         </foreach>
     </insert>
 
-    <select id="getAllUnsignedUser" resultType="User">
+    <select id="getAllUnsignedUser" resultType="priv.xds.pojo.User">
         SELECT *
         FROM t_user
         WHERE last_sign != CURDATE() AND sign_ignore = FALSE
     </select>
 
-    <select id="getUnsignedUserByGroup" resultType="User">
+    <select id="getUnsignedUserByGroup" resultType="priv.xds.pojo.User">
         SELECT *
         FROM t_user
         WHERE last_sign != CURDATE() AND group_code = #{groupCode} AND sign_ignore = FALSE
     </select>
 
-    <select id="getAllUsers" resultType="User">
+    <select id="getAllUsers" resultType="priv.xds.pojo.User">
         SELECT *
         FROM t_user
         WHERE group_code = #{groupCode}
