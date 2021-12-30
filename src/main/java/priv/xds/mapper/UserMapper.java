@@ -1,5 +1,6 @@
 package priv.xds.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.lang.Nullable;
@@ -11,7 +12,7 @@ import java.util.List;
  * @date 2021-09-12 23:26
  */
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
 
     /**
      * 打卡

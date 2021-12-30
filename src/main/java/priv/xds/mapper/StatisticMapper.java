@@ -1,5 +1,6 @@
 package priv.xds.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import priv.xds.pojo.Statistic;
@@ -10,7 +11,7 @@ import priv.xds.pojo.Statistic;
  * @date 2021-09-18 15:14
  */
 @Mapper
-public interface StatisticMapper {
+public interface StatisticMapper extends BaseMapper<Statistic> {
 
     /**
      * 增加用户提交的信息

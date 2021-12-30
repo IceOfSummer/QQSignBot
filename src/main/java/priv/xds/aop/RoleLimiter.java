@@ -23,7 +23,6 @@ import priv.xds.util.MessageUtil;
 @Component
 public class RoleLimiter {
 
-
     private UserService userService;
 
     @Autowired

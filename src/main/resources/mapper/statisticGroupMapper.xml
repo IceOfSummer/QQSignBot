@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="priv.xds.mapper.StatisticGroupMapper">
     
-    <insert id="addStatistic" parameterType="StatisticGroup" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
+    <insert id="addStatistic" parameterType="priv.xds.pojo.StatisticGroup" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
         insert into t_statistic_group(group_code, name) VALUES (#{groupCode}, #{name})
     </insert>
 
@@ -16,19 +16,19 @@
         update t_statistic_group set active = false WHERE id = #{id} and group_code = #{groupCode}
     </update>
 
-    <select id="getStatistic" resultType="Statistic">
+    <select id="getStatistic" resultType="priv.xds.pojo.Statistic">
         select u.* from t_statistic_group as g
         join t_statistic as u
         on g.id = u.statistic_group_id
         where g.id = #{id} and g.group_code = #{groupCode}
     </select>
 
-    <select id="getAllStatistic" resultType="StatisticGroup">
+    <select id="getAllStatistic" resultType="priv.xds.pojo.StatisticGroup">
         select * from t_statistic_group
         where group_code = #{groupCode}
     </select>
 
-    <select id="getActiveStatistic" resultType="StatisticGroup">
+    <select id="getActiveStatistic" resultType="priv.xds.pojo.StatisticGroup">
         select * from t_statistic_group
         where group_code = #{groupCode} and active = true
     </select>

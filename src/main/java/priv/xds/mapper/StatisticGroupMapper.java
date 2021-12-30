@@ -1,5 +1,6 @@
 package priv.xds.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import priv.xds.pojo.Statistic;
@@ -13,7 +14,7 @@ import java.util.List;
  * @date 2021-09-18 14:20
  */
 @Mapper
-public interface StatisticGroupMapper {
+public interface StatisticGroupMapper extends BaseMapper<StatisticGroup> {
 
     /**
      * 添加一条统计记录,添加成功后默认为激活状态

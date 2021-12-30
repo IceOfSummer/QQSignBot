@@ -9,7 +9,7 @@
         VALUES (#{content}, #{qq}, #{statisticGroupId})
     </insert>
 
-    <select id="getStatistic" resultType="Statistic">
+    <select id="getStatistic" resultType="priv.xds.pojo.Statistic">
         select * from t_statistic where qq = #{qq} and statistic_group_id = #{statisticGroupId}
     </select>
 

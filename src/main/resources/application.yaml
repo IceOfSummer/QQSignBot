@@ -12,13 +12,6 @@ spring:
   profiles:
     active: dev
 
-mybatis:
-  mapper-locations: "classpath:mapper/*.xml"
-  type-aliases-package: priv.xds.pojo
-  configuration:
-    map-underscore-to-camel-case: true
-    cache-enabled: true
-
 simbot:
   component:
     mirai:
