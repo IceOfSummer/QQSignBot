@@ -5,6 +5,10 @@ spring:
     password: "abc123"
     url: jdbc:mysql://localhost:3306/qqrobot?useUnicode=true&charcterEncoding=utf-8&serverTimezone=GMT%2B8
     type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      connection-error-retry-attempts: 2
+      time-between-connect-error-millis: 60000
+
   profiles:
     active: dev
 
