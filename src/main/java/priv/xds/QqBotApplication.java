@@ -20,7 +20,6 @@ import priv.xds.function.WeatherForecaster;
 @EnableAspectJAutoProxy
 @EnableSimbot
 @EnableScheduling
-@MapperScan("priv.xds.mapper")
 public class QqBotApplication {
 
     public static void main(String[] args) {

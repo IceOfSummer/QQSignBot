@@ -1,5 +1,6 @@
 package priv.xds.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.api.message.containers.GroupAccountInfo;
@@ -13,7 +14,9 @@ import priv.xds.annotation.RoleCheck;
 import priv.xds.exception.NoRepeatableException;
 import priv.xds.exception.UnNecessaryInvokeException;
 import priv.xds.function.RandomMessage;
+import priv.xds.pojo.SignReply;
 import priv.xds.pojo.User;
+import priv.xds.service.SignReplyService;
 import priv.xds.service.UserService;
 import priv.xds.util.GroupUtil;
 import priv.xds.util.MessageUtil;
@@ -25,11 +28,19 @@ import java.util.NoSuchElementException;
  * @date 2021-09-12 22:47
  */
 @Controller
+@Slf4j
 public class SignListener {
 
     private UserService userService;
 
     private RandomMessage randomMessage;
+
+    private SignReplyService signReplyService;
+
+    @Autowired
+    public void setSignReplyService(SignReplyService signReplyService) {
+        this.signReplyService = signReplyService;
+    }
 
     @Autowired
     public void setRandomMessage(RandomMessage randomMessage) {
@@ -46,6 +57,27 @@ public class SignListener {
     @Filter(value = "打卡", trim = true, matchType = MatchType.EQUALS)
     public void sign(GroupMsg groupMsg,
                      MsgSender sender) {
+        GroupAccountInfo accountInfo = groupMsg.getAccountInfo();
+        try {
+            userService.sign(accountInfo.getAccountCode(), groupMsg.getGroupInfo().getGroupCode());
+            SignReply reply = signReplyService.getReply(groupMsg.getGroupInfo().getGroupCode());
+            if (reply == null) {
+                sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "打卡成功!(输出'自定义打卡回复 #内容#'可以自定义打卡回复,暂时不支持图片!)");
+                return;
+            }
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + reply.getMessage());
+        } catch (NoRepeatableException e) {
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) +"打卡失败!请不要连续打卡");
+        } catch (UnNecessaryInvokeException e) {
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "你已经被忽略了,不会被记入打卡统计!");
+        } catch (Exception e) {
+            log.error("打卡错误: " ,e);
+            sender.SENDER.sendGroupMsg(groupMsg, MessageUtil.atSomeone(groupMsg) + "打卡成功");
+        }
+    }
+
+    private void backUp(GroupMsg groupMsg,
+                        MsgSender sender) {
         GroupAccountInfo accountInfo = groupMsg.getAccountInfo();
         try {
             userService.sign(accountInfo.getAccountCode(), groupMsg.getGroupInfo().getGroupCode());
