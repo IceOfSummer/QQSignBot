@@ -19,5 +19,3 @@ simbot:
   core:
     scan-package: priv.xds.listener
 
-weather:
-  url: https://tianqiapi.com/api
