@@ -18,25 +18,17 @@ import java.util.stream.Collectors;
  * @author HuPeng
  * @date 2021-09-13 12:19
  */
-@Component
 @Slf4j
 public class SignTask {
 
-    private BotManager botManager;
+    private final BotManager botManager;
 
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-
-    @Autowired
-    public void setUserMapper(UserMapper userMapper) {
+    public SignTask(BotManager botManager, UserMapper userMapper) {
+        this.botManager = botManager;
         this.userMapper = userMapper;
     }
-
-    @Autowired
-    public void setBotManager(BotManager botManager) {
-        this.botManager = botManager;
-    }
-
 
     /**
      * 提醒没打卡的人打卡
