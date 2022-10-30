@@ -113,7 +113,3 @@ simbot:
 - 你可以同时启动多个**不同协议**的机器人, 但是不要启动**多个重复协议**的机器人, 因为该操作很大可能会造成QQ冻结或封号!
 
 另附: [Simpler-robot Docs](https://www.yuque.com/simpler-robot/simpler-robot-doc/wyt74o)
-## personal分支
-该分支的代码, 怎么说呢, 就相当于是一份我对我自己学校的**定制化**代码, 
-不具备通用性. 可以理解为我在里面添加了你可能用不了的功能,
-正常情况下使用master分支就可以了, personal分支是不会release的
